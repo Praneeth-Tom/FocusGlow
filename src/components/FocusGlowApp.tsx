@@ -8,7 +8,7 @@ import PresetSelector from '@/components/PresetSelector';
 import SettingsPanel from '@/components/SettingsPanel';
 import CurrentlyPlayingCard from '@/components/CurrentlyPlayingCard';
 import WeeklyProgressView from '@/components/WeeklyProgressView';
-import FocusTypeSelector, { type FocusType } from '@/components/FocusTypeSelector'; // Added import
+import FocusTypeSelector, { type FocusType } from '@/components/FocusTypeSelector';
 import { useSettings } from '@/hooks/useSettings';
 import { useTimer } from '@/hooks/useTimer';
 import { useFocusData } from '@/hooks/useFocusData';
@@ -36,7 +36,7 @@ const FocusGlowApp = () => {
   const [isSettingsPanelOpen, setIsSettingsPanelOpen] = useState(false);
   const [currentTimerDuration, setCurrentTimerDuration] = useState(settings.defaultFocusDuration * 60);
   const [currentView, setCurrentView] = useState<AppView>('timer');
-  const [currentFocusType, setCurrentFocusType] = useState<FocusType>('Work'); // Added state for focus type
+  const [currentFocusType, setCurrentFocusType] = useState<FocusType>('Work');
   
   const [alarmSynth, setAlarmSynth] = useState<Tone.Synth | null>(null);
   const [bellSynth, setBellSynth] = useState<Tone.MetalSynth | null>(null);
@@ -83,7 +83,7 @@ const FocusGlowApp = () => {
 
   const handleSessionComplete = useCallback((focusedMinutes: number) => {
     if (focusedMinutes > 0 && focusDataMounted) { 
-      addFocusSession(focusedMinutes); // In a future step, 'currentFocusType' could be passed here
+      addFocusSession(focusedMinutes);
     }
   }, [addFocusSession, focusDataMounted]);
 
@@ -129,9 +129,8 @@ const FocusGlowApp = () => {
     }
   }, [resetTimer, settings.autoStartTimer, startTimer]);
 
-  const handleSelectFocusType = useCallback((type: FocusType) => { // Added handler
+  const handleSelectFocusType = useCallback((type: FocusType) => {
     setCurrentFocusType(type);
-    // Potentially reset timer or log change here in the future
   }, []);
 
   useEffect(() => {
@@ -172,7 +171,7 @@ const FocusGlowApp = () => {
   const timerCardClasses = cn(
     "bg-card border shadow-lg w-full max-w-sm mx-auto relative",
      getBorderRadiusClass(),
-    settings.compactUiMode ? "p-3" : "p-4 md:p-6" // Removed explicit pt-12/pt-14
+    settings.compactUiMode ? "p-3" : "p-4 md:p-6"
   );
 
   if (!settingsMounted || !focusDataMounted) {
@@ -204,7 +203,7 @@ const FocusGlowApp = () => {
                   </Button>
                 )}
               </div>
-              <div className="pt-8 sm:pt-10"> {/* Wrapper for content flow below icons */}
+              <div className="pt-8 sm:pt-10">
                 <FocusTypeSelector currentFocusType={currentFocusType} onSelectFocusType={handleSelectFocusType} />
                 <TimerDisplay timeLeft={timeLeft} totalDuration={currentTimerDuration} settings={settings} />
                 <PresetSelector onSelectPreset={handleSelectPreset} currentDurationMinutes={Math.floor(currentTimerDuration / 60)} />
