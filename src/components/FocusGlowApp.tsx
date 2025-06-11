@@ -29,6 +29,8 @@ import { Button } from '@/components/ui/button';
 type AppView = 'timer' | 'progress';
 
 const FIXED_DEFAULT_DURATION_SECONDS = 25 * 60; // 25 minutes
+const DEFAULT_DAILY_FOCUS_GOAL_MINUTES = 120;
+const DEFAULT_PROGRESS_DISPLAY_UNIT = 'minutes';
 
 const FocusGlowApp = () => {
   const { settings, updateSetting, isMounted: settingsMounted, resetSettings } = useSettings();
@@ -217,7 +219,10 @@ const FocusGlowApp = () => {
                 </Button>
               </div>
             <div className="pt-8 sm:pt-10"> 
-              <WeeklyProgressView settings={settings} />
+              <WeeklyProgressView 
+                dailyFocusGoal={DEFAULT_DAILY_FOCUS_GOAL_MINUTES}
+                progressDisplayUnit={DEFAULT_PROGRESS_DISPLAY_UNIT}
+              />
             </div>
           </div>
         )}

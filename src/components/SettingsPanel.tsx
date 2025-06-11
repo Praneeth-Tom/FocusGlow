@@ -13,9 +13,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import type { FocusGlowSettings, ThemeMode, NotificationSound, ProgressDisplayUnit, TimerVisualStyle } from '@/types';
+import type { FocusGlowSettings, ThemeMode, NotificationSound, TimerVisualStyle } from '@/types';
 import { useTheme } from 'next-themes';
 
 interface SettingsPanelProps {
@@ -47,17 +46,6 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
     updateSetting('notificationSound', value as NotificationSound);
   };
   
-  const handleDailyFocusGoalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value, 10);
-    if (!isNaN(value) && value > 0) {
-      updateSetting('dailyFocusGoal', value);
-    }
-  };
-
-  const handleProgressDisplayUnitChange = (value: string) => {
-    updateSetting('progressDisplayUnit', value as ProgressDisplayUnit);
-  };
-
   const handleTimerVisualStyleChange = (value: string) => {
     updateSetting('timerVisualStyle', value as TimerVisualStyle);
   };
@@ -143,37 +131,6 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
                     </SelectContent>
                   </Select>
                 </div>
-              </div>
-            </section>
-
-            {/* Progress Tracking Section */}
-            <section>
-              <h3 className="text-md font-medium mb-3 text-primary">Progress Tracking</h3>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="daily-focus-goal">Daily Focus Goal (min)</Label>
-                  <Input
-                    id="daily-focus-goal"
-                    type="number"
-                    value={settings.dailyFocusGoal}
-                    onChange={handleDailyFocusGoalChange}
-                    className="w-20 h-9 text-center"
-                    min="1"
-                  />
-                </div>
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="progress-display-unit">Display Unit</Label>
-                  <Select value={settings.progressDisplayUnit} onValueChange={handleProgressDisplayUnitChange}>
-                    <SelectTrigger id="progress-display-unit" className="w-[180px]">
-                      <SelectValue placeholder="Select unit" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="minutes">Minutes</SelectItem>
-                      <SelectItem value="hours">Hours</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                 {/* Reset Week Data - for future implementation in useFocusData */}
               </div>
             </section>
 

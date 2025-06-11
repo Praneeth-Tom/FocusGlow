@@ -3,7 +3,7 @@
 
 import type { FC } from 'react';
 import { useFocusData } from '@/hooks/useFocusData';
-import type { FocusGlowSettings } from '@/types';
+import type { ProgressDisplayUnit } from '@/types';
 import DailyFocusBar from './DailyFocusBar';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -21,10 +21,11 @@ import {
 } from "@/components/ui/alert-dialog";
 
 interface WeeklyProgressViewProps {
-  settings: FocusGlowSettings;
+  dailyFocusGoal: number;
+  progressDisplayUnit: ProgressDisplayUnit;
 }
 
-const WeeklyProgressView: FC<WeeklyProgressViewProps> = ({ settings }) => {
+const WeeklyProgressView: FC<WeeklyProgressViewProps> = ({ dailyFocusGoal, progressDisplayUnit }) => {
   const { getWeekData, getTotalWeekFocusedMinutes, resetWeekData, isMounted } = useFocusData();
 
   if (!isMounted) {
@@ -36,7 +37,7 @@ const WeeklyProgressView: FC<WeeklyProgressViewProps> = ({ settings }) => {
   const mostFocusedDayMinutes = Math.max(...weekData.map(d => d.focusedMinutes), 0);
   
   const formatTotalTime = (minutes: number) => {
-    if (settings.progressDisplayUnit === 'hours') {
+    if (progressDisplayUnit === 'hours') {
       const hours = Math.floor(minutes / 60);
       const mins = minutes % 60;
       return `${hours}h ${mins}m`;
@@ -67,8 +68,8 @@ const WeeklyProgressView: FC<WeeklyProgressViewProps> = ({ settings }) => {
               key={day.date}
               dayLabel={day.dayLabel}
               focusedMinutes={day.focusedMinutes}
-              goalMinutes={settings.dailyFocusGoal}
-              displayUnit={settings.progressDisplayUnit}
+              goalMinutes={dailyFocusGoal}
+              displayUnit={progressDisplayUnit}
               isMostFocused={day.focusedMinutes > 0 && day.focusedMinutes === mostFocusedDayMinutes && weekData.filter(d => d.focusedMinutes > 0).length > 1}
             />
           ))
@@ -82,7 +83,7 @@ const WeeklyProgressView: FC<WeeklyProgressViewProps> = ({ settings }) => {
             Total this week: {formatTotalTime(totalWeekMinutes)}
           </p>
           <p className="text-xs text-muted-foreground">
-            Daily goal: {settings.dailyFocusGoal > 0 ? formatTotalTime(settings.dailyFocusGoal) : 'Not set'}
+            Daily goal: {dailyFocusGoal > 0 ? formatTotalTime(dailyFocusGoal) : 'Not set'}
           </p>
            <AlertDialog>
             <AlertDialogTrigger asChild>
