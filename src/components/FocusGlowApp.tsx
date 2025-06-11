@@ -146,7 +146,7 @@ const FocusGlowApp = () => {
   );
 
   const timerCardClasses = cn(
-    "bg-card shadow-xl w-full max-w-sm mx-auto",
+    "bg-card border shadow-lg w-full max-w-sm mx-auto", // Added border, changed shadow-xl to shadow-lg
      getBorderRadiusClass(),
     settings.compactUiMode ? "p-3" : "p-4 md:p-6"
   );
