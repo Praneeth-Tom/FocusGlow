@@ -16,12 +16,12 @@ const PillsProgressGraphic: FC<PillsProgressGraphicProps> = ({ timeLeft, totalDu
   const activeSegments = Math.max(0, Math.min(NUM_SEGMENTS, Math.round(progressPercentage * NUM_SEGMENTS)));
 
   return (
-    <div className="flex w-full h-10 items-center space-x-1 p-1">
+    <div className="flex w-full h-20 items-center space-x-1.5 p-1.5">
       {Array.from({ length: NUM_SEGMENTS }).map((_, index) => (
         <div
           key={`segment-${index}`}
           className={cn(
-            "h-6 flex-grow rounded-md transition-colors duration-300 ease-in-out shadow-sm",
+            "h-12 flex-grow rounded-md transition-colors duration-300 ease-in-out shadow-sm",
             index < activeSegments ? 'bg-primary' : 'bg-muted'
           )}
           aria-hidden="true"
