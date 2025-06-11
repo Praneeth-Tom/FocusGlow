@@ -33,7 +33,7 @@ const DEFAULT_DAILY_FOCUS_GOAL_MINUTES = 120;
 const DEFAULT_PROGRESS_DISPLAY_UNIT = 'minutes';
 
 const FocusGlowApp = () => {
-  const { settings, updateSetting, isMounted: settingsMounted, resetSettings } = useSettings();
+  const { settings, updateSetting, isMounted: settingsMounted /*, resetSettings REMOVED */ } = useSettings();
   const { toast } = useToast();
   const { addFocusSession, isMounted: focusDataMounted } = useFocusData();
 
@@ -232,11 +232,10 @@ const FocusGlowApp = () => {
         onClose={() => setIsSettingsPanelOpen(false)}
         settings={settings}
         updateSetting={updateSetting}
-        onResetSettings={resetSettings}
+        // onResetSettings={resetSettings} // REMOVED
       />
     </div>
   );
 };
 
 export default FocusGlowApp;
-    

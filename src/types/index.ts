@@ -10,7 +10,7 @@ export interface FocusGlowSettings {
   themeMode: ThemeMode;
   accentColorOverride?: string;
   fontStyle: FontStyle;
-  alwaysOnTop: boolean; // UI toggle, not actual OS feature
+  // alwaysOnTop: boolean; // UI toggle, not actual OS feature - REMOVED
   notificationSound: NotificationSound;
   enableSoundAlert: boolean;
   timerVisualStyle: TimerVisualStyle;
@@ -19,7 +19,7 @@ export interface FocusGlowSettings {
 export const DEFAULT_SETTINGS: FocusGlowSettings = {
   themeMode: 'system',
   fontStyle: 'Inter',
-  alwaysOnTop: false,
+  // alwaysOnTop: false, // REMOVED
   notificationSound: 'alarm',
   enableSoundAlert: true,
   timerVisualStyle: 'circular',
@@ -35,4 +35,3 @@ export interface DailyFocusEntry {
   date: string; // YYYY-MM-DD
   focusedMinutes: number;
 }
-

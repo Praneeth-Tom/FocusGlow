@@ -2,7 +2,7 @@
 "use client";
 
 import type { FC } from 'react';
-import { Dismiss20Regular, Delete20Regular } from '@fluentui/react-icons';
+import { Dismiss20Regular } from '@fluentui/react-icons';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
@@ -22,7 +22,7 @@ interface SettingsPanelProps {
   onClose: () => void;
   settings: FocusGlowSettings;
   updateSetting: <K extends keyof FocusGlowSettings>(key: K, value: FocusGlowSettings[K]) => void;
-  onResetSettings: () => void;
+  // onResetSettings: () => void; // REMOVED
 }
 
 const SettingsPanel: FC<SettingsPanelProps> = ({
@@ -30,7 +30,7 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
   onClose,
   settings,
   updateSetting,
-  onResetSettings,
+  // onResetSettings, // REMOVED
 }) => {
   const { setTheme } = useTheme();
 
@@ -134,6 +134,8 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
               </div>
             </section>
 
+            {/* Window Behavior Section - REMOVED */}
+            {/*
             <section>
               <h3 className="text-md font-medium mb-3 text-primary">Window Behavior</h3>
                <div className="flex items-center justify-between">
@@ -147,14 +149,18 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
                 />
               </div>
             </section>
+            */}
           </div>
         </ScrollArea>
         </div>
 
         <footer className="p-4 border-t flex justify-end">
+           {/* Reset to Defaults Button - REMOVED */}
+           {/*
            <Button variant="destructive" onClick={onResetSettings} className="mr-2">
             <Delete20Regular className="mr-2 h-4 w-4" /> Reset to Defaults
           </Button>
+          */}
           <Button onClick={onClose}>Done</Button>
         </footer>
       </div>

@@ -44,10 +44,10 @@ export function useSettings() {
     setSettings(prev => ({ ...prev, [key]: value }));
   }, []);
   
-  const resetSettings = useCallback(() => {
-    setSettings(DEFAULT_SETTINGS);
-    localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(DEFAULT_SETTINGS));
-  }, []);
+  // const resetSettings = useCallback(() => { // REMOVED
+  //   setSettings(DEFAULT_SETTINGS);
+  //   localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(DEFAULT_SETTINGS));
+  // }, []);
 
-  return { settings, updateSetting, isMounted, resetSettings };
+  return { settings, updateSetting, isMounted /*, resetSettings REMOVED */ };
 }
