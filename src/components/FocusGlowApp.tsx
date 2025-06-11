@@ -5,10 +5,10 @@ import { useState, useEffect, useCallback } from 'react';
 import TimerDisplay from '@/components/TimerDisplay';
 import TimerControls from '@/components/TimerControls';
 import PresetSelector from '@/components/PresetSelector';
-// import SessionLabelInput from '@/components/SessionLabelInput'; // Removed
 import SettingsPanel from '@/components/SettingsPanel';
 import CurrentlyPlayingCard from '@/components/CurrentlyPlayingCard';
 import WeeklyProgressView from '@/components/WeeklyProgressView';
+import FocusTypeSelector, { type FocusType } from '@/components/FocusTypeSelector'; // Added import
 import { useSettings } from '@/hooks/useSettings';
 import { useTimer } from '@/hooks/useTimer';
 import { useFocusData } from '@/hooks/useFocusData';
@@ -33,10 +33,10 @@ const FocusGlowApp = () => {
   const { toast } = useToast();
   const { addFocusSession, isMounted: focusDataMounted } = useFocusData();
 
-  // const [sessionLabel, setSessionLabel] = useState<string>(''); // Removed
   const [isSettingsPanelOpen, setIsSettingsPanelOpen] = useState(false);
   const [currentTimerDuration, setCurrentTimerDuration] = useState(settings.defaultFocusDuration * 60);
   const [currentView, setCurrentView] = useState<AppView>('timer');
+  const [currentFocusType, setCurrentFocusType] = useState<FocusType>('Work'); // Added state for focus type
   
   const [alarmSynth, setAlarmSynth] = useState<Tone.Synth | null>(null);
   const [bellSynth, setBellSynth] = useState<Tone.MetalSynth | null>(null);
@@ -82,21 +82,20 @@ const FocusGlowApp = () => {
   }, [settings.enableSoundAlert, settings.notificationSound, alarmSynth, bellSynth]);
 
   const handleSessionComplete = useCallback((focusedMinutes: number) => {
-    // const isBreakSession = sessionLabel.toLowerCase().includes('break'); // Removed logic related to sessionLabel
-    if (focusedMinutes > 0 && focusDataMounted) { // Record if focusedMinutes > 0
-      addFocusSession(focusedMinutes);
+    if (focusedMinutes > 0 && focusDataMounted) { 
+      addFocusSession(focusedMinutes); // In a future step, 'currentFocusType' could be passed here
     }
-  }, [addFocusSession, focusDataMounted]); // Removed sessionLabel from dependencies
+  }, [addFocusSession, focusDataMounted]);
 
   const handleTimerEnd = useCallback(() => {
     if (settings.notifyOnCompletion) {
       toast({
         title: "Timer Finished!",
-        description: "Your session has ended.", // Simplified message
+        description: "Your session has ended.", 
       });
       if (Notification.permission === "granted") {
         new Notification("FocusGlow: Timer Finished!", {
-          body: "Your session has ended.", // Simplified message
+          body: "Your session has ended.", 
           icon: '/logo.png', 
         });
       }
@@ -104,7 +103,7 @@ const FocusGlowApp = () => {
     if (settings.enableSoundAlert) {
       playNotificationSound();
     }
-  }, [settings.notifyOnCompletion, settings.enableSoundAlert, toast, playNotificationSound]); // Removed sessionLabel from dependencies
+  }, [settings.notifyOnCompletion, settings.enableSoundAlert, toast, playNotificationSound]);
 
   const { timeLeft, isRunning, isPaused, startTimer, pauseTimer, resumeTimer, resetTimer, setTimeLeft } = useTimer({
     initialDurationInSeconds: currentTimerDuration,
@@ -129,6 +128,11 @@ const FocusGlowApp = () => {
       startTimer();
     }
   }, [resetTimer, settings.autoStartTimer, startTimer]);
+
+  const handleSelectFocusType = useCallback((type: FocusType) => { // Added handler
+    setCurrentFocusType(type);
+    // Potentially reset timer or log change here in the future
+  }, []);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && 'Notification' in window) {
@@ -200,7 +204,7 @@ const FocusGlowApp = () => {
                   </Button>
                 )}
               </div>
-              {/* <SessionLabelInput label={sessionLabel} onLabelChange={setSessionLabel} /> Removed */}
+              <FocusTypeSelector currentFocusType={currentFocusType} onSelectFocusType={handleSelectFocusType} />
               <TimerDisplay timeLeft={timeLeft} totalDuration={currentTimerDuration} settings={settings} />
               <PresetSelector onSelectPreset={handleSelectPreset} currentDurationMinutes={Math.floor(currentTimerDuration / 60)} />
               <TimerControls
