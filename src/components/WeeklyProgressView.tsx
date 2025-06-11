@@ -8,7 +8,7 @@ import DailyFocusBar from './DailyFocusBar';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { AlertCircle, TrendingUp, RotateCcw } from 'lucide-react';
+import { Warning20Regular, ArrowTrending20Regular, ArrowCounterclockwise20Regular } from '@fluentui/react-icons';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -52,14 +52,14 @@ const WeeklyProgressView: FC<WeeklyProgressViewProps> = ({ settings, getBorderRa
     <Card className={cn("w-full max-w-md mx-auto shadow-xl", getBorderRadiusClass())}>
       <CardHeader>
         <CardTitle className="flex items-center text-lg">
-          <TrendingUp className="mr-2 h-5 w-5 text-primary" />
+          <ArrowTrending20Regular className="mr-2 h-5 w-5 text-primary" />
           Weekly Focus Summary
         </CardTitle>
       </CardHeader>
       <CardContent className="flex justify-around items-end p-3 sm:p-4 min-h-[220px] relative">
         {allDaysZeroFocus ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-muted-foreground py-4">
-            <AlertCircle className="mx-auto h-8 w-8 mb-2" />
+            <Warning20Regular className="mx-auto h-8 w-8 mb-2" />
             No focus data recorded for this week yet.
           </div>
         ) : (
@@ -86,7 +86,7 @@ const WeeklyProgressView: FC<WeeklyProgressViewProps> = ({ settings, getBorderRa
            <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant="outline" size="sm" className="mt-2">
-                <RotateCcw className="mr-2 h-3 w-3" /> Reset Current Week Data
+                <ArrowCounterclockwise20Regular className="mr-2 h-3 w-3" /> Reset Current Week Data
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>

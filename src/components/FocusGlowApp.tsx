@@ -16,7 +16,7 @@ import { useFocusData } from '@/hooks/useFocusData'; // New import
 import { useToast } from "@/hooks/use-toast";
 import * as Tone from 'tone';
 import { cn } from '@/lib/utils';
-import { Loader2 } from 'lucide-react';
+import { Spinner48Regular } from '@fluentui/react-icons';
 
 type AppView = 'timer' | 'progress';
 
@@ -146,7 +146,7 @@ const FocusGlowApp = () => {
   );
 
   const timerCardClasses = cn(
-    "bg-card border shadow-lg w-full max-w-sm mx-auto", // Added border, changed shadow-xl to shadow-lg
+    "bg-card border shadow-lg w-full max-w-sm mx-auto", 
      getBorderRadiusClass(),
     settings.compactUiMode ? "p-3" : "p-4 md:p-6"
   );
@@ -154,7 +154,7 @@ const FocusGlowApp = () => {
   if (!settingsMounted || !focusDataMounted) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-background">
-        <Loader2 className="h-12 w-12 animate-spin text-primary" />
+        <Spinner48Regular className="h-12 w-12 animate-spin text-primary" />
       </div>
     );
   }

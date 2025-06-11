@@ -2,7 +2,7 @@
 "use client";
 
 import type { FC } from 'react';
-import { X, Trash2 } from 'lucide-react';
+import { Dismiss20Regular, Delete20Regular } from '@fluentui/react-icons';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
@@ -88,7 +88,7 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
         <header className="flex items-center justify-between p-4 border-b">
           <h2 id="settings-panel-title" className="text-lg font-semibold">Settings</h2>
           <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close settings">
-            <X className="h-5 w-5" />
+            <Dismiss20Regular className="h-5 w-5" />
           </Button>
         </header>
 
@@ -281,7 +281,7 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
 
         <footer className="p-4 border-t flex justify-end">
            <Button variant="destructive" onClick={onResetSettings} className="mr-2">
-            <Trash2 className="mr-2 h-4 w-4" /> Reset to Defaults
+            <Delete20Regular className="mr-2 h-4 w-4" /> Reset to Defaults
           </Button>
           <Button onClick={onClose}>Done</Button>
         </footer>
