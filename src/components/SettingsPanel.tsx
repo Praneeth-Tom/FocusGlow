@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import type { FocusGlowSettings, ThemeMode, RoundedCornerSize, NotificationSound, ProgressDisplayUnit, TimerVisualStyle } from '@/types';
+import type { FocusGlowSettings, ThemeMode, NotificationSound, ProgressDisplayUnit, TimerVisualStyle } from '@/types';
 import { useTheme } from 'next-themes';
 
 interface SettingsPanelProps {
@@ -43,10 +43,6 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
     setTheme(themeValue);
   };
   
-  const handleRoundedCornersChange = (value: string) => {
-    updateSetting('roundedCorners', value as RoundedCornerSize);
-  };
-
   const handleNotificationSoundChange = (value: string) => {
     updateSetting('notificationSound', value as NotificationSound);
   };
@@ -119,30 +115,6 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
                     </SelectContent>
                   </Select>
                 </div>
-
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="compact-ui">Compact UI Mode</Label>
-                  <Switch
-                    id="compact-ui"
-                    checked={settings.compactUiMode}
-                    onCheckedChange={checked => updateSetting('compactUiMode', checked)}
-                  />
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="rounded-corners">Rounded Corners</Label>
-                  <Select value={settings.roundedCorners} onValueChange={handleRoundedCornersChange}>
-                    <SelectTrigger id="rounded-corners" className="w-[180px]">
-                      <SelectValue placeholder="Select corner style" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="none">None</SelectItem>
-                      <SelectItem value="small">Small</SelectItem>
-                      <SelectItem value="medium">Medium</SelectItem>
-                      <SelectItem value="large">Large</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
               </div>
             </section>
 
@@ -150,14 +122,6 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
             <section>
               <h3 className="text-md font-medium mb-3 text-primary">Notifications</h3>
               <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="notify-completion">Notify on Completion (Browser)</Label>
-                  <Switch
-                    id="notify-completion"
-                    checked={settings.notifyOnCompletion}
-                    onCheckedChange={checked => updateSetting('notifyOnCompletion', checked)}
-                  />
-                </div>
                 <div className="flex items-center justify-between">
                   <Label htmlFor="enable-sound">Enable Sound Alert</Label>
                   <Switch

@@ -90,51 +90,33 @@ const FocusGlowApp = () => {
   }, [addFocusSession, focusDataMounted]);
 
   const handleTimerEnd = useCallback(() => {
-    if (settings.notifyOnCompletion) {
-      toast({
-        title: "Timer Finished!",
-        description: "Your session has ended.", 
+    toast({
+      title: "Timer Finished!",
+      description: "Your session has ended.", 
+    });
+    if (Notification.permission === "granted") {
+      new Notification("FocusGlow: Timer Finished!", {
+        body: "Your session has ended.", 
+        icon: '/logo.png', 
       });
-      if (Notification.permission === "granted") {
-        new Notification("FocusGlow: Timer Finished!", {
-          body: "Your session has ended.", 
-          icon: '/logo.png', 
-        });
-      }
     }
     if (settings.enableSoundAlert) {
       playNotificationSound();
     }
-  }, [settings.notifyOnCompletion, settings.enableSoundAlert, toast, playNotificationSound]);
+  }, [settings.enableSoundAlert, toast, playNotificationSound]);
 
   const { timeLeft, isRunning, isPaused, startTimer, pauseTimer, resumeTimer, resetTimer, setTimeLeft } = useTimer({
     initialDurationInSeconds: currentTimerDuration,
-    // settings object is still passed but useTimer will ignore the removed timer behavior fields
     settings, 
     onTimerEnd: handleTimerEnd,
     onSessionComplete: handleSessionComplete,
   });
   
-  // Effect to initialize timer duration when settings are mounted (if needed for other settings)
-  // Or, if defaultFocusDuration was the only reason, this effect can be removed.
-  // For now, we use FIXED_DEFAULT_DURATION_SECONDS, so this specific effect is no longer needed for duration.
-  // useEffect(() => {
-  //    if (settingsMounted) {
-  //     setCurrentTimerDuration(FIXED_DEFAULT_DURATION_SECONDS);
-  //     resetTimer(FIXED_DEFAULT_DURATION_SECONDS);
-  //   }
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [settingsMounted]); // Removed resetTimer from deps as it causes loops if not careful
-
   const handleSelectPreset = useCallback((minutes: number) => {
     const newDurationSeconds = minutes * 60;
     setCurrentTimerDuration(newDurationSeconds);
     resetTimer(newDurationSeconds);
-    // Auto-start logic removed:
-    // if (settings.autoStartTimer) {
-    //   startTimer();
-    // }
-  }, [resetTimer]); // Removed startTimer and settings.autoStartTimer
+  }, [resetTimer]);
 
   const handleSelectFocusType = useCallback((type: FocusType) => {
     setCurrentFocusType(type);
@@ -160,25 +142,15 @@ const FocusGlowApp = () => {
     }
   }, []);
   
-  const getBorderRadiusClass = useCallback(() => {
-    switch (settings.roundedCorners) {
-      case 'none': return 'rounded-none';
-      case 'small': return 'rounded-sm';
-      case 'medium': return 'rounded-md';
-      case 'large': return 'rounded-lg';
-      default: return 'rounded-md';
-    }
-  }, [settings.roundedCorners]);
-  
   const mainAppContainerClasses = cn(
     "flex flex-col min-h-screen bg-background text-foreground transition-all duration-300 ease-in-out",
-    settings.compactUiMode ? "p-1" : "p-2 sm:p-4",
+    "p-2 sm:p-4",
   );
 
   const timerCardClasses = cn(
     "bg-card border shadow-lg w-full max-w-sm mx-auto relative", 
-     getBorderRadiusClass(),
-    settings.compactUiMode ? "p-3" : "p-4 md:p-6"
+     "rounded-md",
+    "p-4 md:p-6"
   );
 
   if (!settingsMounted || !focusDataMounted) {

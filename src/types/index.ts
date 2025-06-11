@@ -10,10 +10,10 @@ export interface FocusGlowSettings {
   themeMode: ThemeMode;
   accentColorOverride?: string;
   fontStyle: FontStyle;
-  compactUiMode: boolean;
-  roundedCorners: RoundedCornerSize;
+  // compactUiMode: boolean; // Removed
+  // roundedCorners: RoundedCornerSize; // Removed
   alwaysOnTop: boolean; // UI toggle, not actual OS feature
-  notifyOnCompletion: boolean;
+  // notifyOnCompletion: boolean; // Removed
   notificationSound: NotificationSound;
   enableSoundAlert: boolean;
   // New settings for Weekly Focus Progress
@@ -25,10 +25,10 @@ export interface FocusGlowSettings {
 export const DEFAULT_SETTINGS: FocusGlowSettings = {
   themeMode: 'system',
   fontStyle: 'Inter',
-  compactUiMode: false,
-  roundedCorners: 'medium',
+  // compactUiMode: false, // Removed
+  // roundedCorners: 'medium', // Removed
   alwaysOnTop: false,
-  notifyOnCompletion: true,
+  // notifyOnCompletion: true, // Removed
   notificationSound: 'alarm',
   enableSoundAlert: true,
   dailyFocusGoal: 120, // Default 2 hours
