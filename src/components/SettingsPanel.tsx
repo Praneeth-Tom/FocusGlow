@@ -122,6 +122,7 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
                     <SelectContent>
                       <SelectItem value="circular">Circular</SelectItem>
                       <SelectItem value="dotMatrix">Dot Matrix</SelectItem>
+                      <SelectItem value="pills">Pills</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

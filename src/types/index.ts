@@ -4,7 +4,7 @@ export type FontStyle = 'Segoe UI' | 'Monospace' | 'Inter'; // Segoe UI might no
 export type RoundedCornerSize = 'none' | 'small' | 'medium' | 'large';
 export type NotificationSound = 'alarm' | 'bell' | 'none' | 'custom';
 export type ProgressDisplayUnit = 'minutes' | 'hours';
-export type TimerVisualStyle = 'circular' | 'dotMatrix';
+export type TimerVisualStyle = 'circular' | 'dotMatrix' | 'pills';
 
 export interface FocusGlowSettings {
   themeMode: ThemeMode;

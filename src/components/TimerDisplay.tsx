@@ -5,6 +5,7 @@ import type { FC } from 'react';
 import type { FocusGlowSettings } from '@/types';
 import CircularProgressGraphic from './CircularProgressGraphic';
 import DotMatrixClockGraphic from './DotMatrixClockGraphic';
+import PillsProgressGraphic from './PillsProgressGraphic';
 
 
 interface TimerDisplayProps {
@@ -20,15 +21,26 @@ const formatTime = (totalSeconds: number): string => {
 };
 
 const TimerDisplay: FC<TimerDisplayProps> = ({ timeLeft, totalDuration, settings }) => {
+  const renderVisualGraphic = () => {
+    switch (settings.timerVisualStyle) {
+      case 'circular':
+        return <CircularProgressGraphic timeLeft={timeLeft} totalDuration={totalDuration} />;
+      case 'dotMatrix':
+        return <DotMatrixClockGraphic />;
+      case 'pills':
+        return <PillsProgressGraphic timeLeft={timeLeft} totalDuration={totalDuration} />;
+      default:
+        return <CircularProgressGraphic timeLeft={timeLeft} totalDuration={totalDuration} />;
+    }
+  };
+
   return (
-    <div className="relative flex flex-col items-center justify-center my-4 w-48 h-48 mx-auto">
-      {settings.timerVisualStyle === 'circular' ? (
-        <CircularProgressGraphic timeLeft={timeLeft} totalDuration={totalDuration} />
-      ) : (
-        <DotMatrixClockGraphic />
-      )}
+    <div className="relative flex flex-col items-center justify-center my-4 w-full max-w-[192px] h-48 mx-auto">
+      <div className="absolute inset-0 flex items-center justify-center">
+        {renderVisualGraphic()}
+      </div>
       <div
-        className="absolute text-5xl font-mono font-bold text-foreground"
+        className="relative text-5xl font-mono font-bold text-foreground z-10"
         aria-live="polite"
         aria-atomic="true"
         role="timer"
