@@ -15,61 +15,90 @@ const formatTime = (totalSeconds: number): string => {
 };
 
 const TimerDisplay: FC<TimerDisplayProps> = ({ timeLeft, totalDuration }) => {
-  const radius = 70;
-  const strokeWidth = 8;
-  const normalizedRadius = radius - strokeWidth / 2;
-  const circumference = normalizedRadius * 2 * Math.PI;
+  // Define radii and dimensions
+  const progressCircleActualRadius = 66; // Radius of the progress circle path itself
+  const progressStrokeWidth = 8;
+  const tickLength = 4;
+  const gapAfterProgress = 2;
 
-  // Ensure totalDuration is not zero to avoid division by zero
+  // Calculate outer extents for SVG canvas sizing
+  const tickOuterR = progressCircleActualRadius + progressStrokeWidth / 2 + gapAfterProgress + tickLength;
+  const canvasSize = tickOuterR * 2;
+  const center = tickOuterR; // Center coordinate for all drawing within the SVG
+
+  // Progress circle calculations
+  const circumference = progressCircleActualRadius * 2 * Math.PI;
   const progress = totalDuration > 0 ? (totalDuration - timeLeft) / totalDuration : 0;
   const strokeDashoffset = circumference - progress * circumference;
 
-  // Define gradient colors. These are variations of the theme's primary blue.
-  const darkBlueColor = "hsl(216, 89%, 40%)";   // A darker shade of blue
-  const lightBlueColor = "hsl(216, 89%, 76%)";  // Matches --primary HSL value (e.g., #89B4FA)
+  // Define gradient colors
+  const darkBlueColor = "hsl(216, 89%, 40%)";
+  const lightBlueColor = "hsl(216, 89%, 76%)";
+
+  // Calculate Ticks
+  const numTicks = 60;
+  const tickInnerR = progressCircleActualRadius + progressStrokeWidth / 2 + gapAfterProgress;
+  // tickOuterR is already defined above
+
+  const ticks = [];
+  for (let i = 0; i < numTicks; i++) {
+    const angle = (i / numTicks) * 2 * Math.PI; // Angle for each tick, 0 is to the right
+    const x1 = center + tickInnerR * Math.cos(angle);
+    const y1 = center + tickInnerR * Math.sin(angle);
+    const x2 = center + tickOuterR * Math.cos(angle);
+    const y2 = center + tickOuterR * Math.sin(angle);
+    ticks.push(
+      <line
+        key={`tick-${i}`}
+        x1={x1}
+        y1={y1}
+        x2={x2}
+        y2={y2}
+        stroke="hsl(var(--muted))"
+        strokeWidth="1"
+      />
+    );
+  }
 
   return (
     <div className="relative flex flex-col items-center justify-center my-4 w-48 h-48 mx-auto">
       <svg
-        height={radius * 2}
-        width={radius * 2}
+        height={canvasSize}
+        width={canvasSize}
         className="transform -rotate-90" // Rotates the coordinate system, so 0 angle is at 12 o'clock
+        viewBox={`0 0 ${canvasSize} ${canvasSize}`} // Ensure viewBox is set
       >
         <defs>
-          {/*
-            A true conic/angular gradient that sweeps with the stroke path is complex in pure SVG 1.1.
-            This linear gradient provides a color transition across the circle.
-            Defined as top-to-bottom (y1="0%" to y2="100%"), due to the SVG's -90deg rotation,
-            this gradient effectively becomes horizontal (darkBlue on the "left" side of the
-            original orientation, lightBlue on the "right" side).
-            This means the 9 o'clock position will be darker, and 3 o'clock lighter.
-          */}
           <linearGradient id="timerStrokeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stopColor={darkBlueColor} />
             <stop offset="100%" stopColor={lightBlueColor} />
           </linearGradient>
         </defs>
+        
+        {/* Tick Marks - drawn first so they are underneath the progress bar if they overlap */}
+        <g>{ticks}</g>
+
         {/* Background circle (track) */}
         <circle
-          stroke="hsl(var(--muted))" // Background circle color from theme
+          stroke="hsl(var(--muted))"
           fill="transparent"
-          strokeWidth={strokeWidth}
-          r={normalizedRadius}
-          cx={radius}
-          cy={radius}
+          strokeWidth={progressStrokeWidth}
+          r={progressCircleActualRadius}
+          cx={center}
+          cy={center}
         />
         {/* Progress circle */}
         <circle
-          stroke="url(#timerStrokeGradient)" // Apply the defined gradient
+          stroke="url(#timerStrokeGradient)"
           fill="transparent"
-          strokeWidth={strokeWidth}
+          strokeWidth={progressStrokeWidth}
           strokeDasharray={circumference + ' ' + circumference}
           style={{ strokeDashoffset }}
-          strokeLinecap="round" // For the rounded cap at the end of the stroke
-          r={normalizedRadius}
-          cx={radius}
-          cy={radius}
-          className="transition-all duration-300 ease-linear" // For smooth animation of strokeDashoffset
+          strokeLinecap="round"
+          r={progressCircleActualRadius}
+          cx={center}
+          cy={center}
+          className="transition-all duration-300 ease-linear"
         />
       </svg>
       <div
