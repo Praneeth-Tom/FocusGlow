@@ -8,10 +8,9 @@ const GRID_SIZE = 25; // e.g., 25x25 grid
 const DOT_RADIUS = 1.8;
 const DOT_SPACING = 5; // Center to center spacing
 const SVG_SIZE = (GRID_SIZE -1) * DOT_SPACING + DOT_RADIUS * 2 + 2; // canvas size
-const CENTER_OFFSET = (SVG_SIZE / 2);
 
 const HAND_DOT_RADIUS = 2;
-const HOUR_HAND_LENGTH = 7; // Number of dots from center
+const HOUR_HAND_LENGTH = 7; // Number of dots from center, including center
 const MINUTE_HAND_LENGTH = 10;
 const SECOND_HAND_LENGTH = 12;
 
@@ -27,21 +26,25 @@ const DotMatrixClockGraphic: FC = () => {
 
   const getHandDots = (
     angle: number,
-    length: number,
-    centerX: number,
-    centerY: number
+    length: number, // Number of dots in the hand (e.g., HOUR_HAND_LENGTH)
+    svgGridCenterX: number, // SVG X-coordinate of the center of the dot grid
+    svgGridCenterY: number  // SVG Y-coordinate of the center of the dot grid
   ): Set<string> => {
     const dots = new Set<string>();
-    for (let i = 0; i < length; i++) {
-      // Calculate position along the hand vector
-      // Scale `i` so the hand extends up to `length` units, where each unit is `DOT_SPACING`
-      const r = (i * DOT_SPACING) / (DOT_SPACING * 0.8) ; // Adjust scaling factor as needed
-      const x = centerX + r * Math.cos(angle - Math.PI / 2); // PI/2 offset because 0 angle is East
-      const y = centerY + r * Math.sin(angle - Math.PI / 2);
+    if (length === 0) return dots;
 
-      // Find the nearest grid cell
-      const gx = Math.round((x - DOT_RADIUS) / DOT_SPACING);
-      const gy = Math.round((y - DOT_RADIUS) / DOT_SPACING);
+    for (let i = 0; i < length; i++) { // i is the 0-indexed dot number from the center
+      // Calculate the pixel distance of the i-th dot from the SVG center of the grid
+      const r = i * DOT_SPACING; 
+
+      // Calculate absolute SVG coordinates of the i-th dot on the hand
+      const dotSvgX = svgGridCenterX + r * Math.cos(angle - Math.PI / 2); // Offset angle by -PI/2 because 0 is East
+      const dotSvgY = svgGridCenterY + r * Math.sin(angle - Math.PI / 2);
+
+      // Convert these absolute SVG coordinates to grid indices (gx, gy)
+      // The SVG coordinate of the center of grid cell (c, r_idx) is (c * DOT_SPACING + DOT_RADIUS + 1, r_idx * DOT_SPACING + DOT_RADIUS + 1)
+      const gx = Math.round((dotSvgX - (DOT_RADIUS + 1)) / DOT_SPACING);
+      const gy = Math.round((dotSvgY - (DOT_RADIUS + 1)) / DOT_SPACING);
       
       if (gx >=0 && gx < GRID_SIZE && gy >=0 && gy < GRID_SIZE) {
          dots.add(`${gx}-${gy}`);
@@ -58,19 +61,25 @@ const DotMatrixClockGraphic: FC = () => {
   const minuteAngle = (minutes + seconds / 60) * (2 * Math.PI / 60);
   const secondAngle = seconds * (2 * Math.PI / 60);
   
-  const gridCenterX = (GRID_SIZE -1 ) / 2;
-  const gridCenterY = (GRID_SIZE -1 ) / 2;
+  // Calculate grid center in terms of grid indices
+  const gridCenterIndexX = Math.floor(GRID_SIZE / 2); // e.g., 12 for GRID_SIZE 25
+  const gridCenterIndexY = Math.floor(GRID_SIZE / 2);
 
-  const hourDots = getHandDots(hourAngle, HOUR_HAND_LENGTH, gridCenterX, gridCenterY);
-  const minuteDots = getHandDots(minuteAngle, MINUTE_HAND_LENGTH, gridCenterX, gridCenterY);
-  const secondDots = getHandDots(secondAngle, SECOND_HAND_LENGTH, gridCenterX, gridCenterY);
+  // Calculate the SVG coordinates of the center of the central dot
+  const svgGridActualCenterX = gridCenterIndexX * DOT_SPACING + DOT_RADIUS + 1;
+  const svgGridActualCenterY = gridCenterIndexY * DOT_SPACING + DOT_RADIUS + 1;
+
+  const hourDots = getHandDots(hourAngle, HOUR_HAND_LENGTH, svgGridActualCenterX, svgGridActualCenterY);
+  const minuteDots = getHandDots(minuteAngle, MINUTE_HAND_LENGTH, svgGridActualCenterX, svgGridActualCenterY);
+  const secondDots = getHandDots(secondAngle, SECOND_HAND_LENGTH, svgGridActualCenterX, svgGridActualCenterY);
 
   const dots = [];
-  for (let r = 0; r < GRID_SIZE; r++) {
-    for (let c = 0; c < GRID_SIZE; c++) {
-      const key = `${c}-${r}`;
+  for (let r_idx = 0; r_idx < GRID_SIZE; r_idx++) { // r_idx for row index to avoid conflict with 'r' for radius
+    for (let c_idx = 0; c_idx < GRID_SIZE; c_idx++) { // c_idx for column index
+      const key = `${c_idx}-${r_idx}`;
       let fill = "hsl(var(--border))"; // Background dot color
-      const isCenterDot = r === gridCenterY && c === gridCenterX;
+      // The center dot of the grid is at (gridCenterIndexX, gridCenterIndexY)
+      const isCenterDotOnGrid = r_idx === gridCenterIndexY && c_idx === gridCenterIndexX;
 
 
       if (secondDots.has(key)) {
@@ -79,7 +88,7 @@ const DotMatrixClockGraphic: FC = () => {
         fill = "hsl(var(--foreground))";
       } else if (hourDots.has(key)) {
         fill = "hsl(var(--foreground))";
-      } else if (isCenterDot) {
+      } else if (isCenterDotOnGrid) { // Ensure the physical center dot has a distinct color if not covered by a hand
         fill = "hsl(var(--muted-foreground))";
       }
 
@@ -87,8 +96,8 @@ const DotMatrixClockGraphic: FC = () => {
       dots.push(
         <circle
           key={key}
-          cx={c * DOT_SPACING + DOT_RADIUS + 1}
-          cy={r * DOT_SPACING + DOT_RADIUS + 1}
+          cx={c_idx * DOT_SPACING + DOT_RADIUS + 1}
+          cy={r_idx * DOT_SPACING + DOT_RADIUS + 1}
           r={secondDots.has(key) || minuteDots.has(key) || hourDots.has(key) ? HAND_DOT_RADIUS : DOT_RADIUS}
           fill={fill}
         />
