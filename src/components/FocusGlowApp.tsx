@@ -2,21 +2,30 @@
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
-import AppHeader from '@/components/AppHeader';
+// Removed AppHeader import
 import TimerDisplay from '@/components/TimerDisplay';
 import TimerControls from '@/components/TimerControls';
 import PresetSelector from '@/components/PresetSelector';
 import SessionLabelInput from '@/components/SessionLabelInput';
 import SettingsPanel from '@/components/SettingsPanel';
 import CurrentlyPlayingCard from '@/components/CurrentlyPlayingCard';
-import WeeklyProgressView from '@/components/WeeklyProgressView'; // New import
+import WeeklyProgressView from '@/components/WeeklyProgressView';
 import { useSettings } from '@/hooks/useSettings';
 import { useTimer } from '@/hooks/useTimer';
-import { useFocusData } from '@/hooks/useFocusData'; // New import
+import { useFocusData } from '@/hooks/useFocusData';
 import { useToast } from "@/hooks/use-toast";
 import * as Tone from 'tone';
 import { cn } from '@/lib/utils';
-import { SpinnerIosRegular } from '@fluentui/react-icons';
+import { 
+  SpinnerIosRegular,
+  Settings20Regular,
+  WeatherMoon20Regular,
+  WeatherSunny20Regular,
+  ArrowLeft20Regular,
+  ArrowRight20Regular
+} from '@fluentui/react-icons';
+import { useTheme } from 'next-themes';
+import { Button } from '@/components/ui/button';
 
 type AppView = 'timer' | 'progress';
 
@@ -32,6 +41,19 @@ const FocusGlowApp = () => {
   
   const [alarmSynth, setAlarmSynth] = useState<Tone.Synth | null>(null);
   const [bellSynth, setBellSynth] = useState<Tone.MetalSynth | null>(null);
+
+  // Theme and mounted state for icons, previously in AppHeader
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const toggleTheme = () => {
+    if (settings.themeMode === 'light') setTheme('dark');
+    else if (settings.themeMode === 'dark') setTheme('light');
+    else { 
+      setTheme(theme === 'dark' ? 'light' : 'dark');
+    }
+  };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -146,9 +168,9 @@ const FocusGlowApp = () => {
   );
 
   const timerCardClasses = cn(
-    "bg-card border shadow-lg w-full max-w-sm mx-auto", 
+    "bg-card border shadow-lg w-full max-w-sm mx-auto relative", // Added relative positioning
      getBorderRadiusClass(),
-    settings.compactUiMode ? "p-3" : "p-4 md:p-6"
+    settings.compactUiMode ? "p-3 pt-12" : "p-4 md:p-6 pt-14" // Added top padding to make space for icons
   );
 
   if (!settingsMounted || !focusDataMounted) {
@@ -161,16 +183,31 @@ const FocusGlowApp = () => {
 
   return (
     <div className={mainAppContainerClasses}>
-      <AppHeader 
-        onToggleSettings={() => setIsSettingsPanelOpen(true)} 
-        settings={settings}
-        currentView={currentView}
-        onNavigate={setCurrentView}
-      />
-      <main className="flex-grow flex flex-col items-center justify-center">
+      {/* AppHeader removed */}
+      <main className="flex-grow flex flex-col items-center justify-center pt-4"> {/* Added pt-4 to give some space at the top */}
         {currentView === 'timer' && (
           <>
             <div className={timerCardClasses}>
+              <div className="absolute top-3 right-3 flex items-center space-x-1 z-10">
+                {currentView === 'progress' && mounted && ( // This part of the condition will likely be false here as currentView is 'timer'
+                  <Button variant="ghost" size="icon" onClick={() => setCurrentView('timer')} aria-label="Back to timer">
+                    <ArrowLeft20Regular className="h-5 w-5" />
+                  </Button>
+                )}
+                {mounted && (
+                  <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
+                    {theme === 'dark' ? <WeatherSunny20Regular className="h-5 w-5" /> : <WeatherMoon20Regular className="h-5 w-5" />}
+                  </Button>
+                )}
+                <Button variant="ghost" size="icon" onClick={() => setIsSettingsPanelOpen(true)} aria-label="Open settings">
+                  <Settings20Regular className="h-5 w-5" />
+                </Button>
+                {currentView === 'timer' && mounted && (
+                  <Button variant="ghost" size="icon" onClick={() => setCurrentView('progress')} aria-label="View progress">
+                    <ArrowRight20Regular className="h-5 w-5" />
+                  </Button>
+                )}
+              </div>
               <SessionLabelInput label={sessionLabel} onLabelChange={setSessionLabel} />
               <TimerDisplay timeLeft={timeLeft} totalDuration={currentTimerDuration} settings={settings} />
               <PresetSelector onSelectPreset={handleSelectPreset} currentDurationMinutes={Math.floor(currentTimerDuration / 60)} />
@@ -187,7 +224,26 @@ const FocusGlowApp = () => {
           </>
         )}
         {currentView === 'progress' && (
-          <WeeklyProgressView settings={settings} getBorderRadiusClass={getBorderRadiusClass} />
+          // If progress view needs similar icons, they'd need to be added here too or structure adjusted.
+          // For now, icons are only on the timer card as per the immediate interpretation.
+           <div className="w-full max-w-sm mx-auto relative">
+             <div className="absolute top-3 right-3 flex items-center space-x-1 z-10">
+                {mounted && (
+                  <Button variant="ghost" size="icon" onClick={() => setCurrentView('timer')} aria-label="Back to timer">
+                    <ArrowLeft20Regular className="h-5 w-5" />
+                  </Button>
+                )}
+                {mounted && (
+                  <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
+                    {theme === 'dark' ? <WeatherSunny20Regular className="h-5 w-5" /> : <WeatherMoon20Regular className="h-5 w-5" />}
+                  </Button>
+                )}
+                <Button variant="ghost" size="icon" onClick={() => setIsSettingsPanelOpen(true)} aria-label="Open settings">
+                  <Settings20Regular className="h-5 w-5" />
+                </Button>
+              </div>
+            <WeeklyProgressView settings={settings} getBorderRadiusClass={getBorderRadiusClass} />
+          </div>
         )}
       </main>
       <SettingsPanel
@@ -202,3 +258,5 @@ const FocusGlowApp = () => {
 };
 
 export default FocusGlowApp;
+
+    
