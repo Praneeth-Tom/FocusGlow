@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import type { FocusGlowSettings, ThemeMode, RoundedCornerSize, NotificationSound, ProgressDisplayUnit } from '@/types';
+import type { FocusGlowSettings, ThemeMode, RoundedCornerSize, NotificationSound, ProgressDisplayUnit, TimerVisualStyle } from '@/types';
 import { useTheme } from 'next-themes';
 
 interface SettingsPanelProps {
@@ -69,6 +69,10 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
     updateSetting('progressDisplayUnit', value as ProgressDisplayUnit);
   };
 
+  const handleTimerVisualStyleChange = (value: string) => {
+    updateSetting('timerVisualStyle', value as TimerVisualStyle);
+  };
+
   return (
     <div 
       className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex justify-center items-center p-4 fade-in"
@@ -88,8 +92,9 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
           </Button>
         </header>
 
-        <ScrollArea className="flex-grow min-h-0">
-          <div className="space-y-6 p-4">
+        <div className="relative flex-grow min-h-0">
+          <ScrollArea className="absolute inset-0">
+            <div className="space-y-6 p-4">
             {/* Appearance Section */}
             <section>
               <h3 className="text-md font-medium mb-3 text-primary">Appearance</h3>
@@ -104,6 +109,19 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
                       <SelectItem value="light">Light</SelectItem>
                       <SelectItem value="dark">Dark</SelectItem>
                       <SelectItem value="system">System</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="timer-visual-style">Timer Visual Style</Label>
+                  <Select value={settings.timerVisualStyle} onValueChange={handleTimerVisualStyleChange}>
+                    <SelectTrigger id="timer-visual-style" className="w-[180px]">
+                      <SelectValue placeholder="Select style" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="circular">Circular</SelectItem>
+                      <SelectItem value="dotMatrix">Dot Matrix</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -258,6 +276,7 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
             </section>
           </div>
         </ScrollArea>
+        </div>
 
         <footer className="p-4 border-t flex justify-end">
            <Button variant="destructive" onClick={onResetSettings} className="mr-2">

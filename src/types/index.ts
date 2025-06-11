@@ -4,6 +4,7 @@ export type FontStyle = 'Segoe UI' | 'Monospace' | 'Inter'; // Segoe UI might no
 export type RoundedCornerSize = 'none' | 'small' | 'medium' | 'large';
 export type NotificationSound = 'alarm' | 'bell' | 'none' | 'custom';
 export type ProgressDisplayUnit = 'minutes' | 'hours';
+export type TimerVisualStyle = 'circular' | 'dotMatrix';
 
 export interface FocusGlowSettings {
   themeMode: ThemeMode;
@@ -22,6 +23,7 @@ export interface FocusGlowSettings {
   // New settings for Weekly Focus Progress
   dailyFocusGoal: number; // in minutes
   progressDisplayUnit: ProgressDisplayUnit;
+  timerVisualStyle: TimerVisualStyle;
 }
 
 export const DEFAULT_SETTINGS: FocusGlowSettings = {
@@ -39,6 +41,7 @@ export const DEFAULT_SETTINGS: FocusGlowSettings = {
   loopTimer: false,
   dailyFocusGoal: 120, // Default 2 hours
   progressDisplayUnit: 'minutes',
+  timerVisualStyle: 'circular',
 };
 
 export interface CustomPreset {

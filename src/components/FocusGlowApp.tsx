@@ -172,7 +172,7 @@ const FocusGlowApp = () => {
           <>
             <div className={timerCardClasses}>
               <SessionLabelInput label={sessionLabel} onLabelChange={setSessionLabel} />
-              <TimerDisplay timeLeft={timeLeft} totalDuration={currentTimerDuration} />
+              <TimerDisplay timeLeft={timeLeft} totalDuration={currentTimerDuration} settings={settings} />
               <PresetSelector onSelectPreset={handleSelectPreset} currentDurationMinutes={Math.floor(currentTimerDuration / 60)} />
               <TimerControls
                 isRunning={isRunning}
