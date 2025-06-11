@@ -11,11 +11,11 @@ const CurrentlyPlayingCard: FC = () => {
   // Placeholder data - in a real app, this would come from state or props
   const songTitle = "Rainy Mood Lo-fi";
   const artistName = "Chill Beats Collective";
-  const albumArtUrl = "https://placehold.co/100x100.png"; // Placeholder image, reduced size
+  const albumArtUrl = "https://placehold.co/80x80.png"; // Placeholder image, corrected size
   const isPlaying = false; // Placeholder state
 
   return (
-    <Card className="my-6 mx-auto max-w-md shadow-lg w-full">
+    <Card className="my-6 mx-auto max-w-sm shadow-lg w-full">
       <CardHeader>
         <CardTitle className="flex items-center text-lg">
           <Music2 className="mr-2 h-5 w-5 text-primary" />
@@ -27,7 +27,7 @@ const CurrentlyPlayingCard: FC = () => {
           <Image
             src={albumArtUrl}
             alt={`Album art for ${songTitle}`}
-            width={80} 
+            width={80}
             height={80}
             className="object-cover"
             data-ai-hint="album music"
