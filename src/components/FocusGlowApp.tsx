@@ -157,7 +157,7 @@ const FocusGlowApp = () => {
       <main className="flex-grow flex flex-col items-center justify-center">
         <div className={timerCardClasses}>
           <SessionLabelInput label={sessionLabel} onLabelChange={setSessionLabel} />
-          <TimerDisplay timeLeft={timeLeft} />
+          <TimerDisplay timeLeft={timeLeft} totalDuration={currentTimerDuration} />
           <PresetSelector onSelectPreset={handleSelectPreset} currentDurationMinutes={Math.floor(currentTimerDuration / 60)} />
           <TimerControls
             isRunning={isRunning}
