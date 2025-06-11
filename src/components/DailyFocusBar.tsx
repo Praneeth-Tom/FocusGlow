@@ -24,33 +24,33 @@ const DailyFocusBar: FC<DailyFocusBarProps> = ({
     ? `${(focusedMinutes / 60).toFixed(1)}h` 
     : `${focusedMinutes}m`;
 
-  const progressPercentage = goalMinutes > 0 ? Math.min(100, (focusedMinutes / goalMinutes) * 100) : 0;
+  const progressPercentage = goalMinutes > 0 ? Math.min(100, (focusedMinutes / goalMinutes) * 100) : (focusedMinutes > 0 ? 100 : 0) ; // If no goal but has time, show full bar for 'primary' color
+  const barHeightStyle = `${progressPercentage}%`;
 
   const barColor = () => {
     if (focusedMinutes === 0) return 'bg-muted';
-    if (focusedMinutes >= goalMinutes) return 'bg-green-500'; // Success color
-    return 'bg-orange-400'; // Under target color
+    if (goalMinutes > 0) {
+      if (focusedMinutes >= goalMinutes) return 'bg-green-500';
+      return 'bg-orange-400'; // Under target color
+    }
+    return 'bg-primary'; // Has focus, but no goal is set (or goal is 0)
   };
 
   return (
-    <div className={cn("flex items-center space-x-3 py-1.5 px-2 rounded-md", isMostFocused ? "bg-primary/10" : "")}>
-      <span className="w-8 text-sm font-medium text-muted-foreground">{dayLabel}</span>
-      <div className="flex-grow h-6 bg-secondary rounded overflow-hidden relative">
-        <div
-          className={cn("h-full transition-all duration-500 ease-out", barColor())}
-          style={{ width: `${progressPercentage}%` }}
-        />
-        {focusedMinutes > 0 && progressPercentage < 25 && ( // Show text inside if bar is too short
-             <span className="absolute left-1 top-1/2 -translate-y-1/2 text-xs font-medium text-foreground pl-1">
-                {displayTime}
-             </span>
-        )}
-      </div>
-      <span className="w-20 text-sm text-right text-foreground">
-        {displayTime}
-        {displayUnit === 'minutes' && focusedMinutes >= goalMinutes && focusedMinutes > 0 && <span className="text-green-500 ml-1">✓</span>}
-        {displayUnit === 'hours' && focusedMinutes >= goalMinutes && focusedMinutes > 0 && <span className="text-green-500 ml-1">✓</span>}
+    <div className={cn(
+      "flex flex-col items-center w-12 space-y-1 text-center",
+      isMostFocused ? "p-1 rounded-md bg-primary/10" : "p-1"
+    )}>
+      <span className="text-xs h-4 text-muted-foreground" aria-label={`Focused time for ${dayLabel}`}>
+        {focusedMinutes > 0 ? displayTime : ""}
       </span>
+      <div className="w-8 h-32 bg-secondary rounded-t-md flex flex-col justify-end overflow-hidden" role="progressbar" aria-valuenow={focusedMinutes} aria-valuemin={0} aria-valuemax={goalMinutes > 0 ? goalMinutes : undefined}>
+        <div
+          className={cn("w-full transition-all duration-500 ease-out rounded-t-md", barColor())}
+          style={{ height: barHeightStyle }}
+        />
+      </div>
+      <span className="text-sm font-medium text-foreground pt-1">{dayLabel}</span>
     </div>
   );
 };

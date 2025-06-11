@@ -30,14 +30,11 @@ const WeeklyProgressView: FC<WeeklyProgressViewProps> = ({ settings, getBorderRa
   const { getWeekData, getTotalWeekFocusedMinutes, resetWeekData, isMounted } = useFocusData();
 
   if (!isMounted) {
-    // Could show a loader here, but for now, just render nothing until mounted
-    // to avoid hydration issues with localStorage access.
     return null; 
   }
 
   const weekData = getWeekData();
   const totalWeekMinutes = getTotalWeekFocusedMinutes();
-
   const mostFocusedDayMinutes = Math.max(...weekData.map(d => d.focusedMinutes), 0);
   
   const formatTotalTime = (minutes: number) => {
@@ -49,39 +46,42 @@ const WeeklyProgressView: FC<WeeklyProgressViewProps> = ({ settings, getBorderRa
     return `${minutes} minutes`;
   };
 
+  const allDaysZeroFocus = weekData.every(day => day.focusedMinutes === 0);
+
   return (
-    <Card className={cn("w-full max-w-sm mx-auto shadow-xl", getBorderRadiusClass())}>
+    <Card className={cn("w-full max-w-md mx-auto shadow-xl", getBorderRadiusClass())}>
       <CardHeader>
         <CardTitle className="flex items-center text-lg">
           <TrendingUp className="mr-2 h-5 w-5 text-primary" />
           Weekly Focus Summary
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-2 p-3 sm:p-4">
-        {weekData.length === 0 && (
-          <div className="text-center text-muted-foreground py-4">
+      <CardContent className="flex justify-around items-end p-3 sm:p-4 min-h-[220px] relative">
+        {allDaysZeroFocus ? (
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-muted-foreground py-4">
             <AlertCircle className="mx-auto h-8 w-8 mb-2" />
             No focus data recorded for this week yet.
           </div>
+        ) : (
+          weekData.map((day) => (
+            <DailyFocusBar
+              key={day.date}
+              dayLabel={day.dayLabel}
+              focusedMinutes={day.focusedMinutes}
+              goalMinutes={settings.dailyFocusGoal}
+              displayUnit={settings.progressDisplayUnit}
+              isMostFocused={day.focusedMinutes > 0 && day.focusedMinutes === mostFocusedDayMinutes && weekData.filter(d => d.focusedMinutes > 0).length > 1}
+            />
+          ))
         )}
-        {weekData.map((day) => (
-          <DailyFocusBar
-            key={day.date}
-            dayLabel={day.dayLabel}
-            focusedMinutes={day.focusedMinutes}
-            goalMinutes={settings.dailyFocusGoal}
-            displayUnit={settings.progressDisplayUnit}
-            isMostFocused={day.focusedMinutes > 0 && day.focusedMinutes === mostFocusedDayMinutes}
-          />
-        ))}
       </CardContent>
-      {weekData.length > 0 && (
+      {(totalWeekMinutes > 0 || !allDaysZeroFocus) && ( // Show footer if there's any data or if it's not all zero (to allow reset)
         <CardFooter className="flex-col items-start space-y-2 p-3 sm:p-4 border-t">
           <p className="text-sm font-semibold text-foreground">
             Total this week: {formatTotalTime(totalWeekMinutes)}
           </p>
           <p className="text-xs text-muted-foreground">
-            Daily goal: {formatTotalTime(settings.dailyFocusGoal)}
+            Daily goal: {settings.dailyFocusGoal > 0 ? formatTotalTime(settings.dailyFocusGoal) : 'Not set'}
           </p>
            <AlertDialog>
             <AlertDialogTrigger asChild>
