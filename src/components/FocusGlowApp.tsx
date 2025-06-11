@@ -169,7 +169,7 @@ const FocusGlowApp = () => {
   );
 
   const timerCardClasses = cn(
-    "bg-card border shadow-lg w-full max-w-sm mx-auto relative",
+    "bg-card border shadow-lg w-full max-w-sm mx-auto relative", // Added border, changed shadow-xl to shadow-lg
      getBorderRadiusClass(),
     settings.compactUiMode ? "p-3" : "p-4 md:p-6"
   );
@@ -221,7 +221,7 @@ const FocusGlowApp = () => {
           </>
         )}
         {currentView === 'progress' && (
-           <div className="w-full max-w-sm mx-auto relative">
+           <div className={timerCardClasses}> {/* Use timerCardClasses for consistent styling */}
              <div className="absolute top-3 right-3 flex items-center space-x-1 z-10">
                 {mounted && (
                   <Button variant="ghost" size="icon" onClick={() => setCurrentView('timer')} aria-label="Back to timer">
@@ -237,7 +237,9 @@ const FocusGlowApp = () => {
                   <Settings20Regular className="h-5 w-5" />
                 </Button>
               </div>
-            <WeeklyProgressView settings={settings} getBorderRadiusClass={getBorderRadiusClass} />
+            <div className="pt-8 sm:pt-10"> {/* Wrapper to push content below icons */}
+              <WeeklyProgressView settings={settings} />
+            </div>
           </div>
         )}
       </main>

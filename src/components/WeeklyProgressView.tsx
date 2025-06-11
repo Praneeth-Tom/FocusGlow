@@ -5,7 +5,6 @@ import type { FC } from 'react';
 import { useFocusData } from '@/hooks/useFocusData';
 import type { FocusGlowSettings } from '@/types';
 import DailyFocusBar from './DailyFocusBar';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Warning20Regular, ArrowTrending20Regular, ArrowCounterclockwise20Regular } from '@fluentui/react-icons';
@@ -23,10 +22,9 @@ import {
 
 interface WeeklyProgressViewProps {
   settings: FocusGlowSettings;
-  getBorderRadiusClass: () => string;
 }
 
-const WeeklyProgressView: FC<WeeklyProgressViewProps> = ({ settings, getBorderRadiusClass }) => {
+const WeeklyProgressView: FC<WeeklyProgressViewProps> = ({ settings }) => {
   const { getWeekData, getTotalWeekFocusedMinutes, resetWeekData, isMounted } = useFocusData();
 
   if (!isMounted) {
@@ -49,14 +47,15 @@ const WeeklyProgressView: FC<WeeklyProgressViewProps> = ({ settings, getBorderRa
   const allDaysZeroFocus = weekData.every(day => day.focusedMinutes === 0);
 
   return (
-    <Card className={cn("w-full max-w-md mx-auto shadow-xl", getBorderRadiusClass())}>
-      <CardHeader>
-        <CardTitle className="flex items-center text-lg">
-          <ArrowTrending20Regular className="mr-2 h-5 w-5 text-primary" />
-          Weekly Focus Summary
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="flex justify-around items-end p-3 sm:p-4 min-h-[220px] relative">
+    <> {/* Removed outer Card component, parent div in FocusGlowApp will provide card styling */}
+      {/* Mimics CardHeader */}
+      <div className="flex items-center text-lg font-semibold mb-4"> 
+        <ArrowTrending20Regular className="mr-2 h-5 w-5 text-primary" />
+        Weekly Focus Summary
+      </div>
+      
+      {/* Mimics CardContent */}
+      <div className="flex justify-around items-end min-h-[220px] relative mb-4">
         {allDaysZeroFocus ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-muted-foreground py-4">
             <Warning20Regular className="mx-auto h-8 w-8 mb-2" />
@@ -74,9 +73,11 @@ const WeeklyProgressView: FC<WeeklyProgressViewProps> = ({ settings, getBorderRa
             />
           ))
         )}
-      </CardContent>
-      {(totalWeekMinutes > 0 || !allDaysZeroFocus) && ( // Show footer if there's any data or if it's not all zero (to allow reset)
-        <CardFooter className="flex-col items-start space-y-2 p-3 sm:p-4 border-t">
+      </div>
+      
+      {/* Mimics CardFooter */}
+      {(totalWeekMinutes > 0 || !allDaysZeroFocus) && ( 
+        <div className="flex-col items-start space-y-2 border-t pt-4">
           <p className="text-sm font-semibold text-foreground">
             Total this week: {formatTotalTime(totalWeekMinutes)}
           </p>
@@ -104,9 +105,9 @@ const WeeklyProgressView: FC<WeeklyProgressViewProps> = ({ settings, getBorderRa
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
-        </CardFooter>
+        </div>
       )}
-    </Card>
+    </>
   );
 };
 
