@@ -9,7 +9,7 @@ interface PillsProgressGraphicProps {
   totalDuration: number; // in seconds
 }
 
-const NUM_SEGMENTS = 30; // Number of pill segments to display
+const NUM_SEGMENTS = 15; // Number of pill segments to display (reduced from 30)
 
 const PillsProgressGraphic: FC<PillsProgressGraphicProps> = ({ timeLeft, totalDuration }) => {
   const progressPercentage = totalDuration > 0 ? (totalDuration - timeLeft) / totalDuration : 0;
