@@ -35,12 +35,12 @@ const TimerDisplay: FC<TimerDisplayProps> = ({ timeLeft, totalDuration, settings
   };
 
   return (
-    <div className="relative flex flex-col items-center justify-center my-4 w-full max-w-[192px] h-48 mx-auto">
-      <div className="absolute inset-0 flex items-center justify-center">
+    <div className="flex flex-col items-center my-4 w-full mx-auto">
+      <div className="flex items-center justify-center w-full">
         {renderVisualGraphic()}
       </div>
       <div
-        className="relative text-5xl font-mono font-bold text-foreground z-10"
+        className="text-5xl font-mono font-bold text-foreground mt-4"
         aria-live="polite"
         aria-atomic="true"
         role="timer"
