@@ -1,7 +1,7 @@
 
 "use client";
 
-import type { FC } from 'react';
+import { type FC, useState, useEffect } from 'react';
 import { Settings, Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from 'next-themes';
@@ -25,8 +25,8 @@ const AppHeader: FC<AppHeaderProps> = ({ onToggleSettings, settings }) => {
   
   // This component might cause hydration issues if theme is accessed too early.
   // Ensure it's only rendered client-side or use useEffect for theme-dependent rendering.
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => setMounted(true), []);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
 
   return (
