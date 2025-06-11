@@ -26,7 +26,7 @@ const CircularProgressGraphic: FC<CircularProgressGraphicProps> = ({ timeLeft, t
   const strokeDashoffset = circumference - progress * circumference;
 
   // Define gradient colors
-  const darkBlueColor = "hsl(216, 89%, 40%)"; // A fixed darker blue
+  const darkBlueColor = "hsl(203, 100%, 35%)"; // A fixed darker shade of the new primary blue
   const lightBlueColor = "hsl(var(--primary))"; // Use primary theme color for the lighter end
 
   // Calculate Ticks
