@@ -14,6 +14,7 @@ import { useTimer } from '@/hooks/useTimer';
 import { useToast } from "@/hooks/use-toast";
 import * as Tone from 'tone';
 import { cn } from '@/lib/utils';
+import { Loader2 } from 'lucide-react';
 
 const FocusGlowApp = () => {
   const { settings, updateSetting, isMounted: settingsMounted, resetSettings } = useSettings();
