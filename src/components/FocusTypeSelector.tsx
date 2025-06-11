@@ -15,7 +15,7 @@ interface FocusTypeSelectorProps {
 
 const FocusTypeSelector: FC<FocusTypeSelectorProps> = ({ currentFocusType, onSelectFocusType }) => {
   return (
-    <div className="flex justify-center space-x-2 my-3">
+    <div className="flex justify-center space-x-2 mb-4"> {/* Changed my-3 to mb-4 */}
       {FOCUS_TYPES.map(type => (
         <Button
           key={type}

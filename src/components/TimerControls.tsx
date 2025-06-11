@@ -23,7 +23,7 @@ const TimerControls: FC<TimerControlsProps> = ({
   onReset,
 }) => {
   return (
-    <div className="flex justify-center space-x-3 my-4">
+    <div className="flex justify-center space-x-3 mt-4"> {/* Changed my-4 to mt-4 */}
       {!isRunning ? (
         <Button onClick={onStart} aria-label="Start timer" size="lg">
           <Play20Filled className="mr-2 h-5 w-5" /> Start

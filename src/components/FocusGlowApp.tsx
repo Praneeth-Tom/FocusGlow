@@ -172,7 +172,7 @@ const FocusGlowApp = () => {
   const timerCardClasses = cn(
     "bg-card border shadow-lg w-full max-w-sm mx-auto relative",
      getBorderRadiusClass(),
-    settings.compactUiMode ? "p-3 pt-12" : "p-4 md:p-6 pt-14"
+    settings.compactUiMode ? "p-3" : "p-4 md:p-6" // Removed explicit pt-12/pt-14
   );
 
   if (!settingsMounted || !focusDataMounted) {
@@ -204,17 +204,19 @@ const FocusGlowApp = () => {
                   </Button>
                 )}
               </div>
-              <FocusTypeSelector currentFocusType={currentFocusType} onSelectFocusType={handleSelectFocusType} />
-              <TimerDisplay timeLeft={timeLeft} totalDuration={currentTimerDuration} settings={settings} />
-              <PresetSelector onSelectPreset={handleSelectPreset} currentDurationMinutes={Math.floor(currentTimerDuration / 60)} />
-              <TimerControls
-                isRunning={isRunning}
-                isPaused={isPaused}
-                onStart={startTimer}
-                onPause={pauseTimer}
-                onResume={resumeTimer}
-                onReset={() => resetTimer(currentTimerDuration)}
-              />
+              <div className="pt-8 sm:pt-10"> {/* Wrapper for content flow below icons */}
+                <FocusTypeSelector currentFocusType={currentFocusType} onSelectFocusType={handleSelectFocusType} />
+                <TimerDisplay timeLeft={timeLeft} totalDuration={currentTimerDuration} settings={settings} />
+                <PresetSelector onSelectPreset={handleSelectPreset} currentDurationMinutes={Math.floor(currentTimerDuration / 60)} />
+                <TimerControls
+                  isRunning={isRunning}
+                  isPaused={isPaused}
+                  onStart={startTimer}
+                  onPause={pauseTimer}
+                  onResume={resumeTimer}
+                  onReset={() => resetTimer(currentTimerDuration)}
+                />
+              </div>
             </div>
             <CurrentlyPlayingCard />
           </>
