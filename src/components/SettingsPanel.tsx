@@ -88,7 +88,7 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
           </Button>
         </header>
 
-        <ScrollArea className="flex-grow">
+        <ScrollArea className="flex-grow min-h-0">
           <div className="space-y-6 p-4">
             {/* Appearance Section */}
             <section>
@@ -271,4 +271,3 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
 };
 
 export default SettingsPanel;
-
