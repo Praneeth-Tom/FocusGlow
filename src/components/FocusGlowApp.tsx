@@ -16,7 +16,7 @@ import { useFocusData } from '@/hooks/useFocusData'; // New import
 import { useToast } from "@/hooks/use-toast";
 import * as Tone from 'tone';
 import { cn } from '@/lib/utils';
-import { Spinner48Regular } from '@fluentui/react-icons';
+import { SpinnerIosRegular } from '@fluentui/react-icons';
 
 type AppView = 'timer' | 'progress';
 
@@ -154,7 +154,7 @@ const FocusGlowApp = () => {
   if (!settingsMounted || !focusDataMounted) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-background">
-        <Spinner48Regular className="h-12 w-12 animate-spin text-primary" />
+        <SpinnerIosRegular className="h-12 w-12 animate-spin text-primary" />
       </div>
     );
   }
