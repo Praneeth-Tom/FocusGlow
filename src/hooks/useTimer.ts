@@ -8,9 +8,10 @@ interface UseTimerProps {
   initialDurationInSeconds: number;
   settings: FocusGlowSettings;
   onTimerEnd?: () => void;
+  onSessionComplete?: (focusedMinutes: number) => void; // For recording focus time
 }
 
-export function useTimer({ initialDurationInSeconds, settings, onTimerEnd }: UseTimerProps) {
+export function useTimer({ initialDurationInSeconds, settings, onTimerEnd, onSessionComplete }: UseTimerProps) {
   const [timeLeft, setTimeLeft] = useState(initialDurationInSeconds);
   const [isRunning, setIsRunning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
@@ -45,18 +46,22 @@ export function useTimer({ initialDurationInSeconds, settings, onTimerEnd }: Use
             clearTimerInterval();
             setIsRunning(false);
             
+            if (onSessionComplete) {
+                // initialDurationInSeconds is the original length of this completed session
+                onSessionComplete(Math.floor(initialDurationInSeconds / 60));
+            }
+            
             if (onTimerEnd) {
               setTimeout(onTimerEnd, 0); // Defer the call
             }
 
             if (settings.autoRestartTimer) {
-              // Reset and start again
-              setTimeLeft(initialDurationInSeconds); // This will be handled by returning initialDurationInSeconds
-              if (settings.autoStartTimer || settings.autoRestartTimer) { // autoRestart implies autoStart for the next cycle
+              setTimeLeft(initialDurationInSeconds); 
+              if (settings.autoStartTimer || settings.autoRestartTimer) { 
                  setIsRunning(true);
                  setIsPaused(false);
               }
-              return initialDurationInSeconds; // for the immediate next tick
+              return initialDurationInSeconds; 
             } else if (settings.loopTimer) {
                 setIsRunning(true);
                 setIsPaused(false);
@@ -71,7 +76,9 @@ export function useTimer({ initialDurationInSeconds, settings, onTimerEnd }: Use
       clearTimerInterval();
     }
     return clearTimerInterval;
-  }, [isRunning, isPaused, settings, initialDurationInSeconds, onTimerEnd, clearTimerInterval]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isRunning, isPaused, settings.autoRestartTimer, settings.loopTimer, initialDurationInSeconds, onTimerEnd, clearTimerInterval, onSessionComplete]);
+  // Added onSessionComplete and related settings to dependency array as they influence behavior.
 
   const startTimer = useCallback(() => {
     if (timeLeft > 0) {
@@ -110,7 +117,6 @@ export function useTimer({ initialDurationInSeconds, settings, onTimerEnd }: Use
     pauseTimer,
     resumeTimer,
     resetTimer,
-    setTimeLeft, // Allow external set for presets
+    setTimeLeft, 
   };
 }
-

@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import type { FocusGlowSettings, ThemeMode, FontStyle, RoundedCornerSize, NotificationSound } from '@/types';
+import type { FocusGlowSettings, ThemeMode, RoundedCornerSize, NotificationSound, ProgressDisplayUnit } from '@/types';
 import { useTheme } from 'next-themes';
 
 interface SettingsPanelProps {
@@ -58,6 +58,16 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
     }
   };
 
+  const handleDailyFocusGoalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value, 10);
+    if (!isNaN(value) && value > 0) {
+      updateSetting('dailyFocusGoal', value);
+    }
+  };
+
+  const handleProgressDisplayUnitChange = (value: string) => {
+    updateSetting('progressDisplayUnit', value as ProgressDisplayUnit);
+  };
 
   return (
     <div 
@@ -121,8 +131,6 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
                     </SelectContent>
                   </Select>
                 </div>
-                 {/* Font Style - Keeping Inter as per instruction, this could be expanded later */}
-                 {/* Accent Color Override - Could be complex, deferring for simplicity */}
               </div>
             </section>
 
@@ -198,13 +206,43 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
                       <SelectItem value="alarm">Alarm</SelectItem>
                       <SelectItem value="bell">Bell</SelectItem>
                       <SelectItem value="none">None</SelectItem>
-                      {/* Custom sound file upload is complex, deferring */}
                     </SelectContent>
                   </Select>
                 </div>
               </div>
             </section>
-             {/* Always On Top - Visual toggle only */}
+
+            {/* Progress Tracking Section */}
+            <section>
+              <h3 className="text-md font-medium mb-3 text-primary">Progress Tracking</h3>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="daily-focus-goal">Daily Focus Goal (min)</Label>
+                  <Input
+                    id="daily-focus-goal"
+                    type="number"
+                    value={settings.dailyFocusGoal}
+                    onChange={handleDailyFocusGoalChange}
+                    className="w-20 h-9 text-center"
+                    min="1"
+                  />
+                </div>
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="progress-display-unit">Display Unit</Label>
+                  <Select value={settings.progressDisplayUnit} onValueChange={handleProgressDisplayUnitChange}>
+                    <SelectTrigger id="progress-display-unit" className="w-[180px]">
+                      <SelectValue placeholder="Select unit" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="minutes">Minutes</SelectItem>
+                      <SelectItem value="hours">Hours</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                 {/* Reset Week Data - for future implementation in useFocusData */}
+              </div>
+            </section>
+
             <section>
               <h3 className="text-md font-medium mb-3 text-primary">Window Behavior</h3>
                <div className="flex items-center justify-between">
