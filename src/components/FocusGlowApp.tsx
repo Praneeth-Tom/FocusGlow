@@ -31,9 +31,10 @@ type AppView = 'timer' | 'progress';
 const FIXED_DEFAULT_DURATION_SECONDS = 25 * 60; // 25 minutes
 const DEFAULT_DAILY_FOCUS_GOAL_MINUTES = 120;
 const DEFAULT_PROGRESS_DISPLAY_UNIT = 'minutes';
+const MAX_PILL_DURATION_SECONDS = 120 * 60; // Max duration pills can represent (120 minutes)
 
 const FocusGlowApp = () => {
-  const { settings, updateSetting, isMounted: settingsMounted /*, resetSettings REMOVED */ } = useSettings();
+  const { settings, updateSetting, isMounted: settingsMounted } = useSettings();
   const { toast } = useToast();
   const { addFocusSession, isMounted: focusDataMounted } = useFocusData();
 
@@ -114,8 +115,7 @@ const FocusGlowApp = () => {
     onSessionComplete: handleSessionComplete,
   });
   
-  const handleSelectPreset = useCallback((minutes: number) => {
-    const newDurationSeconds = minutes * 60;
+  const handleDurationChange = useCallback((newDurationSeconds: number) => {
     setCurrentTimerDuration(newDurationSeconds);
     resetTimer(newDurationSeconds);
   }, [resetTimer]);
@@ -186,8 +186,15 @@ const FocusGlowApp = () => {
               </div>
               <div className="pt-8 sm:pt-10">
                 <FocusTypeSelector currentFocusType={currentFocusType} onSelectFocusType={handleSelectFocusType} />
-                <TimerDisplay timeLeft={timeLeft} totalDuration={currentTimerDuration} settings={settings} />
-                <PresetSelector onSelectPreset={handleSelectPreset} currentDurationMinutes={Math.floor(currentTimerDuration / 60)} />
+                <TimerDisplay 
+                  timeLeft={timeLeft} 
+                  totalDuration={currentTimerDuration} 
+                  settings={settings}
+                  maxPillDuration={MAX_PILL_DURATION_SECONDS}
+                  onSetPillDuration={handleDurationChange}
+                  isRunning={isRunning}
+                />
+                <PresetSelector onSelectPreset={(minutes) => handleDurationChange(minutes * 60)} currentDurationMinutes={Math.floor(currentTimerDuration / 60)} />
                 <TimerControls
                   isRunning={isRunning}
                   isPaused={isPaused}
@@ -232,7 +239,6 @@ const FocusGlowApp = () => {
         onClose={() => setIsSettingsPanelOpen(false)}
         settings={settings}
         updateSetting={updateSetting}
-        // onResetSettings={resetSettings} // REMOVED
       />
     </div>
   );
