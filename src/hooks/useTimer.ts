@@ -44,10 +44,14 @@ export function useTimer({ initialDurationInSeconds, settings, onTimerEnd }: Use
           if (prevTime <= 1) {
             clearTimerInterval();
             setIsRunning(false);
-            onTimerEnd?.();
+            
+            if (onTimerEnd) {
+              setTimeout(onTimerEnd, 0); // Defer the call
+            }
+
             if (settings.autoRestartTimer) {
               // Reset and start again
-              setTimeLeft(initialDurationInSeconds);
+              setTimeLeft(initialDurationInSeconds); // This will be handled by returning initialDurationInSeconds
               if (settings.autoStartTimer || settings.autoRestartTimer) { // autoRestart implies autoStart for the next cycle
                  setIsRunning(true);
                  setIsPaused(false);
@@ -109,3 +113,4 @@ export function useTimer({ initialDurationInSeconds, settings, onTimerEnd }: Use
     setTimeLeft, // Allow external set for presets
   };
 }
+
