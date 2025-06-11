@@ -51,13 +51,6 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
     updateSetting('notificationSound', value as NotificationSound);
   };
   
-  const handleDefaultFocusDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value, 10);
-    if (!isNaN(value) && value > 0) {
-      updateSetting('defaultFocusDuration', value);
-    }
-  };
-
   const handleDailyFocusGoalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value, 10);
     if (!isNaN(value) && value > 0) {
@@ -149,48 +142,6 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
                       <SelectItem value="large">Large</SelectItem>
                     </SelectContent>
                   </Select>
-                </div>
-              </div>
-            </section>
-
-            {/* Timer Behavior Section */}
-            <section>
-              <h3 className="text-md font-medium mb-3 text-primary">Timer Behavior</h3>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="default-duration">Default Focus Duration (min)</Label>
-                  <Input
-                    id="default-duration"
-                    type="number"
-                    value={settings.defaultFocusDuration}
-                    onChange={handleDefaultFocusDurationChange}
-                    className="w-20 h-9 text-center"
-                    min="1"
-                  />
-                </div>
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="auto-start">Auto Start Timer after reset</Label>
-                  <Switch
-                    id="auto-start"
-                    checked={settings.autoStartTimer}
-                    onCheckedChange={checked => updateSetting('autoStartTimer', checked)}
-                  />
-                </div>
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="auto-restart">Auto Restart Timer when finished</Label>
-                  <Switch
-                    id="auto-restart"
-                    checked={settings.autoRestartTimer}
-                    onCheckedChange={checked => updateSetting('autoRestartTimer', checked)}
-                  />
-                </div>
-                 <div className="flex items-center justify-between">
-                  <Label htmlFor="loop-timer">Loop Timer endlessly</Label>
-                  <Switch
-                    id="loop-timer"
-                    checked={settings.loopTimer}
-                    onCheckedChange={checked => updateSetting('loopTimer', checked)}
-                  />
                 </div>
               </div>
             </section>

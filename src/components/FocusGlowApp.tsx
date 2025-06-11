@@ -28,13 +28,15 @@ import { Button } from '@/components/ui/button';
 
 type AppView = 'timer' | 'progress';
 
+const FIXED_DEFAULT_DURATION_SECONDS = 25 * 60; // 25 minutes
+
 const FocusGlowApp = () => {
   const { settings, updateSetting, isMounted: settingsMounted, resetSettings } = useSettings();
   const { toast } = useToast();
   const { addFocusSession, isMounted: focusDataMounted } = useFocusData();
 
   const [isSettingsPanelOpen, setIsSettingsPanelOpen] = useState(false);
-  const [currentTimerDuration, setCurrentTimerDuration] = useState(settings.defaultFocusDuration * 60);
+  const [currentTimerDuration, setCurrentTimerDuration] = useState(FIXED_DEFAULT_DURATION_SECONDS);
   const [currentView, setCurrentView] = useState<AppView>('timer');
   const [currentFocusType, setCurrentFocusType] = useState<FocusType>('Work');
   
@@ -107,27 +109,32 @@ const FocusGlowApp = () => {
 
   const { timeLeft, isRunning, isPaused, startTimer, pauseTimer, resumeTimer, resetTimer, setTimeLeft } = useTimer({
     initialDurationInSeconds: currentTimerDuration,
-    settings,
+    // settings object is still passed but useTimer will ignore the removed timer behavior fields
+    settings, 
     onTimerEnd: handleTimerEnd,
     onSessionComplete: handleSessionComplete,
   });
   
-  useEffect(() => {
-     if (settingsMounted) {
-      setCurrentTimerDuration(settings.defaultFocusDuration * 60);
-      resetTimer(settings.defaultFocusDuration * 60);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [settings.defaultFocusDuration, settingsMounted]);
+  // Effect to initialize timer duration when settings are mounted (if needed for other settings)
+  // Or, if defaultFocusDuration was the only reason, this effect can be removed.
+  // For now, we use FIXED_DEFAULT_DURATION_SECONDS, so this specific effect is no longer needed for duration.
+  // useEffect(() => {
+  //    if (settingsMounted) {
+  //     setCurrentTimerDuration(FIXED_DEFAULT_DURATION_SECONDS);
+  //     resetTimer(FIXED_DEFAULT_DURATION_SECONDS);
+  //   }
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [settingsMounted]); // Removed resetTimer from deps as it causes loops if not careful
 
   const handleSelectPreset = useCallback((minutes: number) => {
     const newDurationSeconds = minutes * 60;
     setCurrentTimerDuration(newDurationSeconds);
     resetTimer(newDurationSeconds);
-    if (settings.autoStartTimer) {
-      startTimer();
-    }
-  }, [resetTimer, settings.autoStartTimer, startTimer]);
+    // Auto-start logic removed:
+    // if (settings.autoStartTimer) {
+    //   startTimer();
+    // }
+  }, [resetTimer]); // Removed startTimer and settings.autoStartTimer
 
   const handleSelectFocusType = useCallback((type: FocusType) => {
     setCurrentFocusType(type);

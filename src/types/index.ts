@@ -13,13 +13,9 @@ export interface FocusGlowSettings {
   compactUiMode: boolean;
   roundedCorners: RoundedCornerSize;
   alwaysOnTop: boolean; // UI toggle, not actual OS feature
-  defaultFocusDuration: number; // in minutes
-  autoStartTimer: boolean;
-  autoRestartTimer: boolean;
   notifyOnCompletion: boolean;
   notificationSound: NotificationSound;
   enableSoundAlert: boolean;
-  loopTimer: boolean;
   // New settings for Weekly Focus Progress
   dailyFocusGoal: number; // in minutes
   progressDisplayUnit: ProgressDisplayUnit;
@@ -32,13 +28,9 @@ export const DEFAULT_SETTINGS: FocusGlowSettings = {
   compactUiMode: false,
   roundedCorners: 'medium',
   alwaysOnTop: false,
-  defaultFocusDuration: 25, // minutes
-  autoStartTimer: false,
-  autoRestartTimer: false,
   notifyOnCompletion: true,
   notificationSound: 'alarm',
   enableSoundAlert: true,
-  loopTimer: false,
   dailyFocusGoal: 120, // Default 2 hours
   progressDisplayUnit: 'minutes',
   timerVisualStyle: 'circular',

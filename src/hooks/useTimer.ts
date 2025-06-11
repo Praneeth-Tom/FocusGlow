@@ -2,11 +2,11 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import type { FocusGlowSettings } from '@/types';
+import type { FocusGlowSettings } from '@/types'; // Settings type will be smaller
 
 interface UseTimerProps {
   initialDurationInSeconds: number;
-  settings: FocusGlowSettings;
+  settings: FocusGlowSettings; // Still pass settings for other potential uses like notificationSound etc.
   onTimerEnd?: () => void;
   onSessionComplete?: (focusedMinutes: number) => void; // For recording focus time
 }
@@ -26,16 +26,10 @@ export function useTimer({ initialDurationInSeconds, settings, onTimerEnd, onSes
 
   useEffect(() => {
     setTimeLeft(initialDurationInSeconds);
-    if (settings.autoStartTimer && initialDurationInSeconds > 0) {
-      setIsRunning(true);
-      setIsPaused(false);
-    } else {
-      setIsRunning(false);
-      setIsPaused(false);
-    }
-  // Auto-start should only re-trigger if initialDuration or autoStartTimer setting changes
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialDurationInSeconds, settings.autoStartTimer]);
+    // Timer no longer auto-starts based on a setting
+    setIsRunning(false);
+    setIsPaused(false);
+  }, [initialDurationInSeconds]);
 
 
   useEffect(() => {
@@ -47,26 +41,16 @@ export function useTimer({ initialDurationInSeconds, settings, onTimerEnd, onSes
             setIsRunning(false);
             
             if (onSessionComplete) {
-                // initialDurationInSeconds is the original length of this completed session
                 onSessionComplete(Math.floor(initialDurationInSeconds / 60));
             }
             
             if (onTimerEnd) {
-              setTimeout(onTimerEnd, 0); // Defer the call
+              setTimeout(onTimerEnd, 0); 
             }
 
-            if (settings.autoRestartTimer) {
-              setTimeLeft(initialDurationInSeconds); 
-              if (settings.autoStartTimer || settings.autoRestartTimer) { 
-                 setIsRunning(true);
-                 setIsPaused(false);
-              }
-              return initialDurationInSeconds; 
-            } else if (settings.loopTimer) {
-                setIsRunning(true);
-                setIsPaused(false);
-                return initialDurationInSeconds;
-            }
+            // Auto-restart and loop logic removed
+            // if (settings.autoRestartTimer) { ... }
+            // else if (settings.loopTimer) { ... }
             return 0;
           }
           return prevTime - 1;
@@ -77,8 +61,8 @@ export function useTimer({ initialDurationInSeconds, settings, onTimerEnd, onSes
     }
     return clearTimerInterval;
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isRunning, isPaused, settings.autoRestartTimer, settings.loopTimer, initialDurationInSeconds, onTimerEnd, clearTimerInterval, onSessionComplete]);
-  // Added onSessionComplete and related settings to dependency array as they influence behavior.
+  }, [isRunning, isPaused, initialDurationInSeconds, onTimerEnd, clearTimerInterval, onSessionComplete, settings.notifyOnCompletion, settings.enableSoundAlert]);
+  // settings.autoRestartTimer and settings.loopTimer removed from dependencies
 
   const startTimer = useCallback(() => {
     if (timeLeft > 0) {
@@ -102,12 +86,9 @@ export function useTimer({ initialDurationInSeconds, settings, onTimerEnd, onSes
     const durationToSet = newDurationInSeconds ?? initialDurationInSeconds;
     setTimeLeft(durationToSet);
     setIsPaused(false);
-    if (settings.autoStartTimer && durationToSet > 0) {
-      setIsRunning(true);
-    } else {
-      setIsRunning(false);
-    }
-  }, [clearTimerInterval, initialDurationInSeconds, settings.autoStartTimer]);
+    // Timer no longer auto-starts on reset
+    setIsRunning(false);
+  }, [clearTimerInterval, initialDurationInSeconds]);
 
   return {
     timeLeft,
