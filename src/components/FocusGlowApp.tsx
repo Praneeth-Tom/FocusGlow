@@ -8,7 +8,7 @@ import TimerControls from '@/components/TimerControls';
 import PresetSelector from '@/components/PresetSelector';
 import SessionLabelInput from '@/components/SessionLabelInput';
 import SettingsPanel from '@/components/SettingsPanel';
-import PlaylistSuggestion from '@/components/PlaylistSuggestion';
+import CurrentlyPlayingCard from '@/components/CurrentlyPlayingCard';
 import { useSettings } from '@/hooks/useSettings';
 import { useTimer } from '@/hooks/useTimer';
 import { useToast } from "@/hooks/use-toast";
@@ -168,7 +168,7 @@ const FocusGlowApp = () => {
             onReset={() => resetTimer(currentTimerDuration)}
           />
         </div>
-        <PlaylistSuggestion />
+        <CurrentlyPlayingCard />
       </main>
       <SettingsPanel
         isOpen={isSettingsPanelOpen}
