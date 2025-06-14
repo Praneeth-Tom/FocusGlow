@@ -2,19 +2,18 @@
 "use client";
 
 import type { FC } from 'react';
-import type { FocusGlowSettings } from '@/types';
-import CircularProgressGraphic from './CircularProgressGraphic';
+// FocusGlowSettings import removed as settings prop is removed
+// CircularProgressGraphic import removed
 import PillsProgressGraphic from './PillsProgressGraphic';
 
 
 interface TimerDisplayProps {
   timeLeft: number; // in seconds
-  totalDuration: number; // in seconds, the initial duration for the current timer session
-  settings: FocusGlowSettings;
-  // New props for PillsProgressGraphic interactivity
-  maxPillDuration?: number; 
-  onSetPillDuration?: (newDurationInSeconds: number) => void;
-  isRunning?: boolean;
+  // totalDuration prop is no longer used by PillsProgressGraphic in the same way, but timeLeft covers current display
+  // settings prop removed
+  maxPillDuration: number; // Keep this for PillsProgressGraphic
+  onSetPillDuration: (newDurationInSeconds: number) => void; // Keep this
+  isRunning: boolean; // Keep this
 }
 
 const formatTime = (totalSeconds: number): string => {
@@ -25,33 +24,22 @@ const formatTime = (totalSeconds: number): string => {
 
 const TimerDisplay: FC<TimerDisplayProps> = ({ 
   timeLeft, 
-  totalDuration, 
-  settings,
+  // totalDuration, // This was mainly for Circular, Pills uses timeLeft/maxPillDuration
+  // settings, // Removed
   maxPillDuration,
   onSetPillDuration,
   isRunning 
 }) => {
+  // renderVisualGraphic simplified to always return PillsProgressGraphic
   const renderVisualGraphic = () => {
-    switch (settings.timerVisualStyle) {
-      case 'circular':
-        return <CircularProgressGraphic timeLeft={timeLeft} totalDuration={totalDuration} />;
-      case 'pills':
-        // Ensure all required props are passed; provide defaults if some are optional and not given
-        if (typeof maxPillDuration === 'number' && typeof onSetPillDuration === 'function' && typeof isRunning === 'boolean') {
-          return (
-            <PillsProgressGraphic 
-              timeLeft={timeLeft} 
-              maxPillDuration={maxPillDuration}
-              onSetTimerDuration={onSetPillDuration}
-              isRunning={isRunning}
-            />
-          );
-        }
-        // Fallback or error for pills if props are missing
-        return <div className="text-destructive">Pills graphic misconfigured</div>;
-      default:
-        return <CircularProgressGraphic timeLeft={timeLeft} totalDuration={totalDuration} />;
-    }
+    return (
+      <PillsProgressGraphic 
+        timeLeft={timeLeft} 
+        maxPillDuration={maxPillDuration}
+        onSetTimerDuration={onSetPillDuration}
+        isRunning={isRunning}
+      />
+    );
   };
 
   return (

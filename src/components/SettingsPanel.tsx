@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import type { FocusGlowSettings, ThemeMode, NotificationSound, TimerVisualStyle } from '@/types';
+import type { FocusGlowSettings, ThemeMode, NotificationSound } from '@/types'; // TimerVisualStyle removed
 import { useTheme } from 'next-themes';
 
 interface SettingsPanelProps {
@@ -44,9 +44,7 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
     updateSetting('notificationSound', value as NotificationSound);
   };
   
-  const handleTimerVisualStyleChange = (value: string) => {
-    updateSetting('timerVisualStyle', value as TimerVisualStyle);
-  };
+  // handleTimerVisualStyleChange removed
 
   return (
     <div 
@@ -88,18 +86,7 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
                   </Select>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="timer-visual-style">Timer Visual Style</Label>
-                  <Select value={settings.timerVisualStyle} onValueChange={handleTimerVisualStyleChange}>
-                    <SelectTrigger id="timer-visual-style" className="w-[180px]">
-                      <SelectValue placeholder="Select style" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="circular">Circular</SelectItem>
-                      <SelectItem value="pills">Pills</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+                {/* Timer Visual Style Select Removed */}
               </div>
             </section>
 

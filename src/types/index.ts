@@ -4,15 +4,14 @@ export type FontStyle = 'Segoe UI' | 'Monospace' | 'Inter'; // Segoe UI might no
 export type RoundedCornerSize = 'none' | 'small' | 'medium' | 'large';
 export type NotificationSound = 'alarm' | 'bell' | 'none' | 'custom';
 export type ProgressDisplayUnit = 'minutes' | 'hours';
-export type TimerVisualStyle = 'circular' | 'pills';
+// TimerVisualStyle type removed
 
 export interface FocusGlowSettings {
   themeMode: ThemeMode;
-  accentColorOverride?: string;
   fontStyle: FontStyle;
   notificationSound: NotificationSound;
   enableSoundAlert: boolean;
-  timerVisualStyle: TimerVisualStyle;
+  // timerVisualStyle removed
 }
 
 export const DEFAULT_SETTINGS: FocusGlowSettings = {
@@ -20,7 +19,7 @@ export const DEFAULT_SETTINGS: FocusGlowSettings = {
   fontStyle: 'Inter',
   notificationSound: 'alarm',
   enableSoundAlert: true,
-  timerVisualStyle: 'circular',
+  // timerVisualStyle removed
 };
 
 export interface CustomPreset {

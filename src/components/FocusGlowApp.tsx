@@ -188,10 +188,10 @@ const FocusGlowApp = () => {
                 <FocusTypeSelector currentFocusType={currentFocusType} onSelectFocusType={handleSelectFocusType} />
                 <TimerDisplay 
                   timeLeft={timeLeft} 
-                  totalDuration={currentTimerDuration} 
-                  settings={settings}
+                  // totalDuration prop removed as TimerDisplay no longer uses it directly
+                  // settings prop removed from TimerDisplay
                   maxPillDuration={MAX_PILL_DURATION_SECONDS}
-                  onSetPillDuration={handleDurationChange}
+                  onSetPillDuration={handleDurationChange} // Use existing handleDurationChange
                   isRunning={isRunning}
                 />
                 <PresetSelector onSelectPreset={(minutes) => handleDurationChange(minutes * 60)} currentDurationMinutes={Math.floor(currentTimerDuration / 60)} />
