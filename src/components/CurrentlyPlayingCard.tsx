@@ -33,7 +33,7 @@ const CurrentlyPlayingCard: FC = () => {
         </CardTitle>
       </CardHeader>
       <CardContent className="flex items-center space-x-4 p-4">
-        <div className="rounded-md overflow-hidden shadow-md flex-shrink-0 w-20 h-20 flex items-center justify-center">
+        <div className="rounded-md overflow-hidden flex-shrink-0 w-20 h-20 flex items-center justify-center">
           {/* Replace Image with BreathingCircle and pass isPlaying state */}
           <BreathingCircle isPlaying={isPlaying} />
         </div>
