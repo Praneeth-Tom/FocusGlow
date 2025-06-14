@@ -22,7 +22,6 @@ interface SettingsPanelProps {
   onClose: () => void;
   settings: FocusGlowSettings;
   updateSetting: <K extends keyof FocusGlowSettings>(key: K, value: FocusGlowSettings[K]) => void;
-  // onResetSettings: () => void; // REMOVED
 }
 
 const SettingsPanel: FC<SettingsPanelProps> = ({
@@ -30,7 +29,6 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
   onClose,
   settings,
   updateSetting,
-  // onResetSettings, // REMOVED
 }) => {
   const { setTheme } = useTheme();
 
@@ -98,7 +96,6 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="circular">Circular</SelectItem>
-                      <SelectItem value="dotMatrix">Dot Matrix</SelectItem>
                       <SelectItem value="pills">Pills</SelectItem>
                     </SelectContent>
                   </Select>
@@ -133,34 +130,11 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
                 </div>
               </div>
             </section>
-
-            {/* Window Behavior Section - REMOVED */}
-            {/*
-            <section>
-              <h3 className="text-md font-medium mb-3 text-primary">Window Behavior</h3>
-               <div className="flex items-center justify-between">
-                <Label htmlFor="always-on-top" className="text-muted-foreground">
-                  Always on Top <span className="text-xs">(Visual Only)</span>
-                </Label>
-                <Switch
-                  id="always-on-top"
-                  checked={settings.alwaysOnTop}
-                  onCheckedChange={checked => updateSetting('alwaysOnTop', checked)}
-                />
-              </div>
-            </section>
-            */}
           </div>
         </ScrollArea>
         </div>
 
         <footer className="p-4 border-t flex justify-end">
-           {/* Reset to Defaults Button - REMOVED */}
-           {/*
-           <Button variant="destructive" onClick={onResetSettings} className="mr-2">
-            <Delete20Regular className="mr-2 h-4 w-4" /> Reset to Defaults
-          </Button>
-          */}
           <Button onClick={onClose}>Done</Button>
         </footer>
       </div>

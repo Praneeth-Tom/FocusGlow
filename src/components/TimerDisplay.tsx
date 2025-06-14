@@ -4,7 +4,6 @@
 import type { FC } from 'react';
 import type { FocusGlowSettings } from '@/types';
 import CircularProgressGraphic from './CircularProgressGraphic';
-import DotMatrixClockGraphic from './DotMatrixClockGraphic';
 import PillsProgressGraphic from './PillsProgressGraphic';
 
 
@@ -36,8 +35,6 @@ const TimerDisplay: FC<TimerDisplayProps> = ({
     switch (settings.timerVisualStyle) {
       case 'circular':
         return <CircularProgressGraphic timeLeft={timeLeft} totalDuration={totalDuration} />;
-      case 'dotMatrix':
-        return <DotMatrixClockGraphic />;
       case 'pills':
         // Ensure all required props are passed; provide defaults if some are optional and not given
         if (typeof maxPillDuration === 'number' && typeof onSetPillDuration === 'function' && typeof isRunning === 'boolean') {
