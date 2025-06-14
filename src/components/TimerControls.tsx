@@ -26,36 +26,36 @@ const TimerControls: FC<TimerControlsProps> = ({
   const primaryButtonGradient = "bg-gradient-to-b from-[hsl(203,100%,80%)] via-[hsl(var(--primary))] to-[hsl(203,100%,40%)]";
 
   return (
-    <div className="flex justify-center space-x-3 mt-4"> {/* Changed my-4 to mt-4 */}
+    <div className="flex justify-center space-x-3 mt-4">
       {!isRunning ? (
-        <Button 
-          onClick={onStart} 
-          aria-label="Start timer" 
+        <Button
+          onClick={onStart}
+          aria-label="Start timer"
           size="lg"
-          className={cn(primaryButtonGradient, "hover:brightness-105 hover:shadow-sm transition-all duration-150 ease-in-out")}
+          className={cn(primaryButtonGradient, "hover:brightness-105 transition-all duration-150 ease-in-out")}
         >
           <Play20Filled className="mr-2 h-5 w-5" /> Start
         </Button>
       ) : isPaused ? (
-        <Button 
-          onClick={onResume} 
-          aria-label="Resume timer" 
+        <Button
+          onClick={onResume}
+          aria-label="Resume timer"
           size="lg"
-          className={cn(primaryButtonGradient, "hover:brightness-105 hover:shadow-sm transition-all duration-150 ease-in-out")}
+          className={cn(primaryButtonGradient, "hover:brightness-105 transition-all duration-150 ease-in-out")}
         >
           <Play20Filled className="mr-2 h-5 w-5" /> Resume
         </Button>
       ) : (
-        <Button 
-          onClick={onPause} 
-          aria-label="Pause timer" 
+        <Button
+          onClick={onPause}
+          aria-label="Pause timer"
           size="lg"
-          className={cn(primaryButtonGradient, "hover:brightness-105 hover:shadow-sm transition-all duration-150 ease-in-out")}
+          className={cn(primaryButtonGradient, "hover:brightness-105 transition-all duration-150 ease-in-out")}
         >
           <Pause20Filled className="mr-2 h-5 w-5" /> Pause
         </Button>
       )}
-      <Button onClick={onReset} variant="outline" aria-label="Reset timer" size="lg" className="hover:shadow-md transition-shadow duration-150 ease-in-out">
+      <Button onClick={onReset} variant="outline" aria-label="Reset timer" size="lg" className="">
         <ArrowCounterclockwise20Regular className="mr-2 h-5 w-5" /> Reset
       </Button>
     </div>

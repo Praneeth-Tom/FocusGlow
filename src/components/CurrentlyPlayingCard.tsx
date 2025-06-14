@@ -2,22 +2,22 @@
 "use client";
 
 import type { FC } from 'react';
-import BreathingCircle from './BreathingCircle'; 
+import BreathingCircle from './BreathingCircle';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { 
-  MusicNote220Regular, 
-  Play20Filled, 
-  Pause20Filled, 
-  Next20Regular, 
-  Previous20Regular 
+import {
+  MusicNote220Regular,
+  Play20Filled,
+  Pause20Filled,
+  Next20Regular,
+  Previous20Regular
 } from '@fluentui/react-icons';
 import { cn } from '@/lib/utils';
 
 const CurrentlyPlayingCard: FC = () => {
   const songTitle = "Rainy Mood Lo-fi";
   const artistName = "Chill Beats Collective";
-  const isPlaying = false; 
+  const isPlaying = false;
 
   const playPauseButtonGradient = "bg-gradient-to-b from-[hsl(203,100%,80%)] via-[hsl(var(--primary))] to-[hsl(203,100%,40%)]";
 
@@ -42,14 +42,14 @@ const CurrentlyPlayingCard: FC = () => {
             <Button variant="ghost" size="icon" className="h-8 w-8 hover:scale-110 transform transition-transform duration-150 ease-in-out" aria-label="Previous track">
               <Previous20Regular className="h-4 w-4" />
             </Button>
-            <Button 
-              variant="default" 
-              size="icon" 
+            <Button
+              variant="default"
+              size="icon"
               className={cn(
-                "w-10 h-10 rounded-full", 
+                "w-10 h-10 rounded-full",
                 playPauseButtonGradient,
-                "hover:brightness-105 hover:shadow-sm transition-all duration-150 ease-in-out"
-              )} 
+                "hover:brightness-105 transition-all duration-150 ease-in-out"
+              )}
               aria-label={isPlaying ? "Pause" : "Play"}
             >
               {isPlaying ? <Pause20Filled className="h-5 w-5" /> : <Play20Filled className="h-5 w-5" />}

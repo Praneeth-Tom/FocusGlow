@@ -29,13 +29,13 @@ const WeeklyProgressView: FC<WeeklyProgressViewProps> = ({ dailyFocusGoal, progr
   const { getWeekData, getTotalWeekFocusedMinutes, resetWeekData, isMounted } = useFocusData();
 
   if (!isMounted) {
-    return null; 
+    return null;
   }
 
   const weekData = getWeekData();
   const totalWeekMinutes = getTotalWeekFocusedMinutes();
   const mostFocusedDayMinutes = Math.max(...weekData.map(d => d.focusedMinutes), 0);
-  
+
   const formatTotalTime = (minutes: number) => {
     if (progressDisplayUnit === 'hours') {
       const hours = Math.floor(minutes / 60);
@@ -48,12 +48,12 @@ const WeeklyProgressView: FC<WeeklyProgressViewProps> = ({ dailyFocusGoal, progr
   const allDaysZeroFocus = weekData.every(day => day.focusedMinutes === 0);
 
   return (
-    <> 
-      <div className="flex items-center text-lg font-semibold mb-4"> 
+    <>
+      <div className="flex items-center text-lg font-semibold mb-4">
         <ArrowTrending20Regular className="mr-2 h-5 w-5 text-primary" />
         Weekly Focus Summary
       </div>
-      
+
       <div className="flex justify-around items-end min-h-[220px] relative mb-4">
         {allDaysZeroFocus ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-muted-foreground py-4">
@@ -73,8 +73,8 @@ const WeeklyProgressView: FC<WeeklyProgressViewProps> = ({ dailyFocusGoal, progr
           ))
         )}
       </div>
-      
-      {(totalWeekMinutes > 0 || !allDaysZeroFocus) && ( 
+
+      {(totalWeekMinutes > 0 || !allDaysZeroFocus) && (
         <div className="flex-col items-start space-y-2 border-t pt-4">
           <p className="text-sm font-semibold text-foreground">
             Total this week: {formatTotalTime(totalWeekMinutes)}
@@ -84,7 +84,7 @@ const WeeklyProgressView: FC<WeeklyProgressViewProps> = ({ dailyFocusGoal, progr
           </p>
            <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="outline" size="sm" className="mt-2 hover:shadow-md transition-shadow duration-150 ease-in-out">
+              <Button variant="outline" size="sm" className="mt-2">
                 <ArrowCounterclockwise20Regular className="mr-2 h-3 w-3" /> Reset Current Week Data
               </Button>
             </AlertDialogTrigger>
@@ -96,10 +96,10 @@ const WeeklyProgressView: FC<WeeklyProgressViewProps> = ({ dailyFocusGoal, progr
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel className="hover:shadow-md transition-shadow duration-150 ease-in-out">Cancel</AlertDialogCancel>
-                <AlertDialogAction 
-                  onClick={resetWeekData} 
-                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90 hover:shadow-md transition-shadow duration-150 ease-in-out"
+                <AlertDialogCancel className="">Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={resetWeekData}
+                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                 >
                   Reset Data
                 </AlertDialogAction>

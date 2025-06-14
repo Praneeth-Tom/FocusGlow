@@ -30,14 +30,14 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
   updateSetting,
 }) => {
   if (!isOpen) return null;
-  
+
   const handleNotificationSoundChange = (value: string) => {
     updateSetting('notificationSound', value as NotificationSound);
   };
-  
+
 
   return (
-    <div 
+    <div
       className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex justify-center items-center p-4 fade-in"
       onClick={onClose}
       role="dialog"
@@ -96,7 +96,7 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
         </div>
 
         <footer className="p-4 border-t flex justify-end">
-          <Button onClick={onClose} className="hover:shadow-md transition-shadow duration-150 ease-in-out">Done</Button>
+          <Button onClick={onClose} className="">Done</Button>
         </footer>
       </div>
     </div>
