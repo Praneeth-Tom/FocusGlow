@@ -3,7 +3,7 @@
 
 import type { FC, ChangeEvent } from 'react';
 import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
+// Button import removed as it's no longer used for presets
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
@@ -12,11 +12,12 @@ interface PresetSelectorProps {
   currentDurationMinutes: number;
 }
 
-const PRESETS = [
-  { label: '5m', minutes: 5 },
-  { label: '10m', minutes: 10 },
-  { label: '25m', minutes: 25 },
-];
+// PRESETS array removed
+// const PRESETS = [
+//   { label: '5m', minutes: 5 },
+//   { label: '10m', minutes: 10 },
+//   { label: '25m', minutes: 25 },
+// ];
 
 const MAX_DURATION_MINUTES = 120;
 
@@ -24,8 +25,6 @@ const PresetSelector: FC<PresetSelectorProps> = ({ onSelectPreset, currentDurati
   const [customMinutes, setCustomMinutes] = useState<string>(String(currentDurationMinutes));
 
   useEffect(() => {
-    // Sync customMinutes if currentDurationMinutes changes externally
-    // and is different from what customMinutes currently represents (to avoid infinite loops on invalid input)
     if (parseInt(customMinutes, 10) !== currentDurationMinutes) {
       setCustomMinutes(String(currentDurationMinutes));
     }
@@ -42,12 +41,9 @@ const PresetSelector: FC<PresetSelectorProps> = ({ onSelectPreset, currentDurati
         val = MAX_DURATION_MINUTES;
       }
       onSelectPreset(val);
-      setCustomMinutes(String(val)); // Update input field if capped
+      setCustomMinutes(String(val)); 
     } else {
-      // Reset to current duration if input is invalid or empty
       setCustomMinutes(String(currentDurationMinutes));
-      // Optionally, if you want to re-apply the current valid duration if input was bad:
-      // onSelectPreset(currentDurationMinutes); 
     }
   };
   
@@ -58,29 +54,14 @@ const PresetSelector: FC<PresetSelectorProps> = ({ onSelectPreset, currentDurati
   const handleCustomInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
         applyCustomInput();
-        (e.target as HTMLInputElement).blur(); // Remove focus from input
+        (e.target as HTMLInputElement).blur(); 
     }
   }
 
   return (
     <div className="flex flex-col items-center space-y-3 my-4 px-4">
-      <div className="flex justify-center space-x-2">
-        {PRESETS.map(preset => (
-          <Button
-            key={preset.label}
-            variant={currentDurationMinutes === preset.minutes ? 'default' : 'secondary'}
-            onClick={() => {
-              onSelectPreset(preset.minutes);
-              setCustomMinutes(String(preset.minutes));
-            }}
-            aria-pressed={currentDurationMinutes === preset.minutes}
-            disabled={preset.minutes > MAX_DURATION_MINUTES} // Disable preset if it's over max (though current presets are not)
-          >
-            {preset.label}
-          </Button>
-        ))}
-      </div>
-      <div className="flex items-center space-x-2">
+      {/* Removed preset buttons section */}
+      <div className="flex items-center space-x-2 justify-center w-full"> {/* Added justify-center and w-full */}
         <Label htmlFor="custom-time" className="text-sm">Custom (min):</Label>
         <Input
           id="custom-time"
@@ -91,7 +72,7 @@ const PresetSelector: FC<PresetSelectorProps> = ({ onSelectPreset, currentDurati
           onKeyPress={handleCustomInputKeyPress}
           className="w-20 h-9 text-center"
           min="1"
-          max={String(MAX_DURATION_MINUTES)} // Added max attribute
+          max={String(MAX_DURATION_MINUTES)}
         />
       </div>
     </div>
