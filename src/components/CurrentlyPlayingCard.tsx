@@ -20,7 +20,7 @@ const CurrentlyPlayingCard: FC = () => {
   const songTitle = "Rainy Mood Lo-fi";
   const artistName = "Chill Beats Collective";
   // const albumArtUrl = "https://placehold.co/80x80.png"; // No longer needed
-  const isPlaying = false; // Placeholder state
+  const isPlaying = false; // Placeholder state - THIS WILL CONTROL THE ANIMATION
 
   const playPauseButtonGradient = "bg-gradient-to-b from-[hsl(203,100%,80%)] via-[hsl(var(--primary))] to-[hsl(203,100%,40%)]";
 
@@ -34,8 +34,8 @@ const CurrentlyPlayingCard: FC = () => {
       </CardHeader>
       <CardContent className="flex items-center space-x-4 p-4">
         <div className="rounded-md overflow-hidden shadow-md flex-shrink-0 w-20 h-20 flex items-center justify-center">
-          {/* Replace Image with BreathingCircle */}
-          <BreathingCircle />
+          {/* Replace Image with BreathingCircle and pass isPlaying state */}
+          <BreathingCircle isPlaying={isPlaying} />
         </div>
         <div className="flex flex-col flex-grow space-y-2">
           <div className="text-left">

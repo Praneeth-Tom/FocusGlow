@@ -3,32 +3,39 @@
 
 import { cn } from '@/lib/utils';
 
-const BreathingCircle = () => {
-  // Keyframes for 'breathing' are defined in globals.css
-  // This component's root div will now fill the parent container from CurrentlyPlayingCard.
+interface BreathingCircleProps {
+  isPlaying: boolean;
+}
+
+const BreathingCircle = ({ isPlaying }: BreathingCircleProps) => {
+  const animationClass = isPlaying ? "animate-[breathing_2s_ease-out_infinite_normal]" : "";
+
   return (
     <div className="relative flex items-center justify-center w-full h-full">
       {/* Outer Circles (Largest, Bottom Layer) */}
       {/* Circle 1 (visually back, longest delay, appears to be "behind") */}
       <div
         className={cn(
-          "absolute w-full h-full rounded-full animate-[breathing_2s_ease-out_infinite_normal]"
+          "absolute w-full h-full rounded-full",
+          animationClass
         )}
-        style={{ backgroundColor: 'hsl(203, 100%, 45%)', animationDelay: '0.4s' }}
+        style={{ backgroundColor: 'hsl(203, 100%, 45%)', animationDelay: isPlaying ? '0.4s' : undefined }}
       />
       {/* Circle 2 (visually middle) */}
       <div
         className={cn(
-          "absolute w-full h-full rounded-full bg-primary animate-[breathing_2s_ease-out_infinite_normal]" // bg-primary is hsl(203, 100%, 53%)
+          "absolute w-full h-full rounded-full bg-primary",
+          animationClass
         )}
-        style={{ animationDelay: '0.2s' }}
+        style={{ animationDelay: isPlaying ? '0.2s' : undefined }}
       />
       {/* Circle 3 (visually front, no delay, appears to be "on top") */}
       <div
         className={cn(
-          "absolute w-full h-full rounded-full animate-[breathing_2s_ease-out_infinite_normal]"
+          "absolute w-full h-full rounded-full",
+          animationClass
         )}
-        style={{ backgroundColor: 'hsl(203, 100%, 60%)' }}
+        style={{ backgroundColor: 'hsl(203, 100%, 60%)', animationDelay: isPlaying ? '0s' : undefined }}
       />
 
       {/* Middle Circles (Intermediate Layer) */}
@@ -36,23 +43,26 @@ const BreathingCircle = () => {
         {/* Middle Circle 1 (visually back, longest delay) */}
         <div
           className={cn(
-            "absolute w-full h-full rounded-full animate-[breathing_2s_ease-out_infinite_normal]"
+            "absolute w-full h-full rounded-full",
+            animationClass
           )}
-          style={{ backgroundColor: 'hsl(203, 100%, 60%)', animationDelay: '0.4s' }}
+          style={{ backgroundColor: 'hsl(203, 100%, 60%)', animationDelay: isPlaying ? '0.4s' : undefined }}
         />
         {/* Middle Circle 2 (visually middle) */}
         <div
           className={cn(
-            "absolute w-full h-full rounded-full animate-[breathing_2s_ease-out_infinite_normal]"
+            "absolute w-full h-full rounded-full",
+            animationClass
           )}
-          style={{ backgroundColor: 'hsl(203, 100%, 65%)', animationDelay: '0.2s' }}
+          style={{ backgroundColor: 'hsl(203, 100%, 65%)', animationDelay: isPlaying ? '0.2s' : undefined }}
         />
         {/* Middle Circle 3 (visually front, no delay) */}
         <div
           className={cn(
-            "absolute w-full h-full rounded-full animate-[breathing_2s_ease-out_infinite_normal]"
+            "absolute w-full h-full rounded-full",
+            animationClass
           )}
-          style={{ backgroundColor: 'hsl(203, 100%, 70%)' }}
+          style={{ backgroundColor: 'hsl(203, 100%, 70%)', animationDelay: isPlaying ? '0s' : undefined }}
         />
       </div>
 
@@ -61,23 +71,26 @@ const BreathingCircle = () => {
         {/* Inner Circle 1 (visually back, longest delay) */}
         <div
           className={cn(
-            "absolute w-full h-full rounded-full animate-[breathing_2s_ease-out_infinite_normal]"
+            "absolute w-full h-full rounded-full",
+            animationClass
           )}
-          style={{ backgroundColor: 'hsl(203, 100%, 70%)', animationDelay: '0.4s' }}
+          style={{ backgroundColor: 'hsl(203, 100%, 70%)', animationDelay: isPlaying ? '0.4s' : undefined }}
         />
         {/* Inner Circle 2 (visually middle) */}
         <div
           className={cn(
-            "absolute w-full h-full rounded-full animate-[breathing_2s_ease-out_infinite_normal]"
+            "absolute w-full h-full rounded-full",
+            animationClass
           )}
-          style={{ backgroundColor: 'hsl(203, 100%, 75%)', animationDelay: '0.2s' }}
+          style={{ backgroundColor: 'hsl(203, 100%, 75%)', animationDelay: isPlaying ? '0.2s' : undefined }}
         />
         {/* Inner Circle 3 (visually front, no delay) */}
         <div
           className={cn(
-            "absolute w-full h-full rounded-full animate-[breathing_2s_ease-out_infinite_normal]"
+            "absolute w-full h-full rounded-full",
+            animationClass
           )}
-          style={{ backgroundColor: 'hsl(203, 100%, 80%)' }}
+          style={{ backgroundColor: 'hsl(203, 100%, 80%)', animationDelay: isPlaying ? '0s' : undefined }}
         />
       </div>
     </div>
@@ -85,4 +98,3 @@ const BreathingCircle = () => {
 };
 
 export default BreathingCircle;
-
