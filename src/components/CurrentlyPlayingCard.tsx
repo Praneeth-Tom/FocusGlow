@@ -2,7 +2,8 @@
 "use client";
 
 import type { FC } from 'react';
-import Image from 'next/image';
+// import Image from 'next/image'; // No longer needed
+import BreathingCircle from './BreathingCircle'; // Import the new component
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { 
@@ -18,7 +19,7 @@ const CurrentlyPlayingCard: FC = () => {
   // Placeholder data - in a real app, this would come from state or props
   const songTitle = "Rainy Mood Lo-fi";
   const artistName = "Chill Beats Collective";
-  const albumArtUrl = "https://placehold.co/80x80.png";
+  // const albumArtUrl = "https://placehold.co/80x80.png"; // No longer needed
   const isPlaying = false; // Placeholder state
 
   const playPauseButtonGradient = "bg-gradient-to-b from-[hsl(203,100%,80%)] via-[hsl(var(--primary))] to-[hsl(203,100%,40%)]";
@@ -32,15 +33,9 @@ const CurrentlyPlayingCard: FC = () => {
         </CardTitle>
       </CardHeader>
       <CardContent className="flex items-center space-x-4 p-4">
-        <div className="rounded-md overflow-hidden shadow-md flex-shrink-0">
-          <Image
-            src={albumArtUrl}
-            alt={`Album art for ${songTitle}`}
-            width={80}
-            height={80}
-            className="object-cover"
-            data-ai-hint="album music"
-          />
+        <div className="rounded-md overflow-hidden shadow-md flex-shrink-0 w-20 h-20 flex items-center justify-center">
+          {/* Replace Image with BreathingCircle */}
+          <BreathingCircle />
         </div>
         <div className="flex flex-col flex-grow space-y-2">
           <div className="text-left">
@@ -70,4 +65,3 @@ const CurrentlyPlayingCard: FC = () => {
 };
 
 export default CurrentlyPlayingCard;
-
