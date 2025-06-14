@@ -51,11 +51,7 @@ const FocusGlowApp = () => {
   useEffect(() => setMounted(true), []);
 
   const toggleTheme = () => {
-    if (settings.themeMode === 'light') setTheme('dark');
-    else if (settings.themeMode === 'dark') setTheme('light');
-    else { 
-      setTheme(theme === 'dark' ? 'light' : 'dark');
-    }
+    setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
   useEffect(() => {
@@ -188,10 +184,8 @@ const FocusGlowApp = () => {
                 <FocusTypeSelector currentFocusType={currentFocusType} onSelectFocusType={handleSelectFocusType} />
                 <TimerDisplay 
                   timeLeft={timeLeft} 
-                  // totalDuration prop removed as TimerDisplay no longer uses it directly
-                  // settings prop removed from TimerDisplay
                   maxPillDuration={MAX_PILL_DURATION_SECONDS}
-                  onSetPillDuration={handleDurationChange} // Use existing handleDurationChange
+                  onSetPillDuration={handleDurationChange} 
                   isRunning={isRunning}
                 />
                 <PresetSelector onSelectPreset={(minutes) => handleDurationChange(minutes * 60)} currentDurationMinutes={Math.floor(currentTimerDuration / 60)} />
@@ -245,3 +239,4 @@ const FocusGlowApp = () => {
 };
 
 export default FocusGlowApp;
+

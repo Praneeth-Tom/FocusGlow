@@ -1,25 +1,20 @@
 
-export type ThemeMode = 'light' | 'dark' | 'system';
 export type FontStyle = 'Segoe UI' | 'Monospace' | 'Inter'; // Segoe UI might not be available, Inter is used
 export type RoundedCornerSize = 'none' | 'small' | 'medium' | 'large';
 export type NotificationSound = 'alarm' | 'bell' | 'none' | 'custom';
 export type ProgressDisplayUnit = 'minutes' | 'hours';
-// TimerVisualStyle type removed
+
 
 export interface FocusGlowSettings {
-  themeMode: ThemeMode;
   fontStyle: FontStyle;
   notificationSound: NotificationSound;
   enableSoundAlert: boolean;
-  // timerVisualStyle removed
 }
 
 export const DEFAULT_SETTINGS: FocusGlowSettings = {
-  themeMode: 'system',
   fontStyle: 'Inter',
   notificationSound: 'alarm',
   enableSoundAlert: true,
-  // timerVisualStyle removed
 };
 
 export interface CustomPreset {
@@ -32,3 +27,4 @@ export interface DailyFocusEntry {
   date: string; // YYYY-MM-DD
   focusedMinutes: number;
 }
+

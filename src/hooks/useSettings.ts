@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
-import type { FocusGlowSettings, ThemeMode } from '@/types';
+import type { FocusGlowSettings } from '@/types';
 import { DEFAULT_SETTINGS } from '@/types';
 
 const SETTINGS_STORAGE_KEY = 'focusGlowSettings';
@@ -17,7 +17,6 @@ export function useSettings() {
       const storedSettings = localStorage.getItem(SETTINGS_STORAGE_KEY);
       if (storedSettings) {
         const parsedSettings = JSON.parse(storedSettings);
-        // Ensure all keys from DEFAULT_SETTINGS are present
         const completeSettings = { ...DEFAULT_SETTINGS, ...parsedSettings };
         setSettings(completeSettings);
       } else {
@@ -31,7 +30,7 @@ export function useSettings() {
   }, []);
 
   useEffect(() => {
-    if (isMounted && settings !== DEFAULT_SETTINGS) { // Avoid writing default settings initially if nothing changed
+    if (isMounted && settings !== DEFAULT_SETTINGS) { 
       try {
         localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
       } catch (error) {
@@ -44,10 +43,7 @@ export function useSettings() {
     setSettings(prev => ({ ...prev, [key]: value }));
   }, []);
   
-  // const resetSettings = useCallback(() => { // REMOVED
-  //   setSettings(DEFAULT_SETTINGS);
-  //   localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(DEFAULT_SETTINGS));
-  // }, []);
 
-  return { settings, updateSetting, isMounted /*, resetSettings REMOVED */ };
+  return { settings, updateSetting, isMounted };
 }
+

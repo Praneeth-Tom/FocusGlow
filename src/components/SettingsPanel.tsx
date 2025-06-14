@@ -14,8 +14,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import type { FocusGlowSettings, ThemeMode, NotificationSound } from '@/types'; // TimerVisualStyle removed
-import { useTheme } from 'next-themes';
+import type { FocusGlowSettings, NotificationSound } from '@/types';
 
 interface SettingsPanelProps {
   isOpen: boolean;
@@ -30,21 +29,12 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
   settings,
   updateSetting,
 }) => {
-  const { setTheme } = useTheme();
-
   if (!isOpen) return null;
-
-  const handleThemeChange = (value: string) => {
-    const themeValue = value as ThemeMode;
-    updateSetting('themeMode', themeValue);
-    setTheme(themeValue);
-  };
   
   const handleNotificationSoundChange = (value: string) => {
     updateSetting('notificationSound', value as NotificationSound);
   };
   
-  // handleTimerVisualStyleChange removed
 
   return (
     <div 
@@ -68,29 +58,13 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
         <div className="relative flex-grow min-h-0">
           <ScrollArea className="absolute inset-0">
             <div className="space-y-6 p-4">
-            {/* Appearance Section */}
             <section>
               <h3 className="text-md font-medium mb-3 text-primary">Appearance</h3>
               <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="theme-mode">Theme Mode</Label>
-                  <Select value={settings.themeMode} onValueChange={handleThemeChange}>
-                    <SelectTrigger id="theme-mode" className="w-[180px]">
-                      <SelectValue placeholder="Select theme" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="light">Light</SelectItem>
-                      <SelectItem value="dark">Dark</SelectItem>
-                      <SelectItem value="system">System</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Timer Visual Style Select Removed */}
+                {/* Font Style and other appearance settings would go here if any */}
               </div>
             </section>
 
-            {/* Notifications Section */}
             <section>
               <h3 className="text-md font-medium mb-3 text-primary">Notifications</h3>
               <div className="space-y-4">
@@ -130,3 +104,4 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
 };
 
 export default SettingsPanel;
+
