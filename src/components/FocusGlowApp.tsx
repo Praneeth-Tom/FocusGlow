@@ -4,7 +4,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import TimerDisplay from '@/components/TimerDisplay';
 import TimerControls from '@/components/TimerControls';
-import PresetSelector from '@/components/PresetSelector';
+// PresetSelector import removed
 import SettingsPanel from '@/components/SettingsPanel';
 import CurrentlyPlayingCard from '@/components/CurrentlyPlayingCard';
 import WeeklyProgressView from '@/components/WeeklyProgressView';
@@ -112,8 +112,10 @@ const FocusGlowApp = () => {
   });
   
   const handleDurationChange = useCallback((newDurationSeconds: number) => {
-    setCurrentTimerDuration(newDurationSeconds);
-    resetTimer(newDurationSeconds);
+    // Ensure newDurationSeconds is at least 1 to avoid issues with 0 duration
+    const validDuration = Math.max(1, newDurationSeconds);
+    setCurrentTimerDuration(validDuration);
+    resetTimer(validDuration);
   }, [resetTimer]);
 
   const handleSelectFocusType = useCallback((type: FocusType) => {
@@ -185,10 +187,10 @@ const FocusGlowApp = () => {
                 <TimerDisplay 
                   timeLeft={timeLeft} 
                   maxPillDuration={MAX_PILL_DURATION_SECONDS}
-                  onSetPillDuration={handleDurationChange} 
+                  onSetDuration={handleDurationChange} 
                   isRunning={isRunning}
                 />
-                <PresetSelector onSelectPreset={(minutes) => handleDurationChange(minutes * 60)} currentDurationMinutes={Math.floor(currentTimerDuration / 60)} />
+                {/* PresetSelector removed */}
                 <TimerControls
                   isRunning={isRunning}
                   isPaused={isPaused}
@@ -239,4 +241,3 @@ const FocusGlowApp = () => {
 };
 
 export default FocusGlowApp;
-
