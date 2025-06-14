@@ -12,6 +12,7 @@ import {
   Next20Regular, 
   Previous20Regular 
 } from '@fluentui/react-icons';
+import { cn } from '@/lib/utils';
 
 const CurrentlyPlayingCard: FC = () => {
   // Placeholder data - in a real app, this would come from state or props
@@ -19,6 +20,8 @@ const CurrentlyPlayingCard: FC = () => {
   const artistName = "Chill Beats Collective";
   const albumArtUrl = "https://placehold.co/80x80.png";
   const isPlaying = false; // Placeholder state
+
+  const playPauseButtonGradient = "bg-gradient-to-b from-[hsl(203,100%,80%)] via-[hsl(var(--primary))] to-[hsl(203,100%,40%)]";
 
   return (
     <Card className="my-6 mx-auto max-w-sm shadow-lg w-full">
@@ -48,7 +51,12 @@ const CurrentlyPlayingCard: FC = () => {
             <Button variant="ghost" size="icon" className="h-8 w-8" aria-label="Previous track">
               <Previous20Regular className="h-4 w-4" />
             </Button>
-            <Button variant="default" size="icon" className="w-10 h-10 rounded-full" aria-label={isPlaying ? "Pause" : "Play"}>
+            <Button 
+              variant="default" 
+              size="icon" 
+              className={cn("w-10 h-10 rounded-full", playPauseButtonGradient)} 
+              aria-label={isPlaying ? "Pause" : "Play"}
+            >
               {isPlaying ? <Pause20Filled className="h-5 w-5" /> : <Play20Filled className="h-5 w-5" />}
             </Button>
             <Button variant="ghost" size="icon" className="h-8 w-8" aria-label="Next track">
@@ -62,3 +70,4 @@ const CurrentlyPlayingCard: FC = () => {
 };
 
 export default CurrentlyPlayingCard;
+

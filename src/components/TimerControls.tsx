@@ -4,6 +4,7 @@
 import type { FC } from 'react';
 import { Play20Filled, Pause20Filled, ArrowCounterclockwise20Regular } from '@fluentui/react-icons';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 interface TimerControlsProps {
   isRunning: boolean;
@@ -22,18 +23,35 @@ const TimerControls: FC<TimerControlsProps> = ({
   onResume,
   onReset,
 }) => {
+  const primaryButtonGradient = "bg-gradient-to-b from-[hsl(203,100%,80%)] via-[hsl(var(--primary))] to-[hsl(203,100%,40%)]";
+
   return (
     <div className="flex justify-center space-x-3 mt-4"> {/* Changed my-4 to mt-4 */}
       {!isRunning ? (
-        <Button onClick={onStart} aria-label="Start timer" size="lg">
+        <Button 
+          onClick={onStart} 
+          aria-label="Start timer" 
+          size="lg"
+          className={cn(primaryButtonGradient)}
+        >
           <Play20Filled className="mr-2 h-5 w-5" /> Start
         </Button>
       ) : isPaused ? (
-        <Button onClick={onResume} aria-label="Resume timer" size="lg">
+        <Button 
+          onClick={onResume} 
+          aria-label="Resume timer" 
+          size="lg"
+          className={cn(primaryButtonGradient)}
+        >
           <Play20Filled className="mr-2 h-5 w-5" /> Resume
         </Button>
       ) : (
-        <Button onClick={onPause} aria-label="Pause timer" size="lg">
+        <Button 
+          onClick={onPause} 
+          aria-label="Pause timer" 
+          size="lg"
+          className={cn(primaryButtonGradient)}
+        >
           <Pause20Filled className="mr-2 h-5 w-5" /> Pause
         </Button>
       )}
@@ -45,3 +63,4 @@ const TimerControls: FC<TimerControlsProps> = ({
 };
 
 export default TimerControls;
+

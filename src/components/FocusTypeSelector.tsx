@@ -3,6 +3,7 @@
 
 import type { FC } from 'react';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 export type FocusType = 'Work' | 'Study' | 'Read';
 
@@ -23,7 +24,10 @@ const FocusTypeSelector: FC<FocusTypeSelectorProps> = ({ currentFocusType, onSel
           size="sm"
           onClick={() => onSelectFocusType(type)}
           aria-pressed={currentFocusType === type}
-          className="px-4 py-1.5 h-auto"
+          className={cn(
+            "px-4 py-1.5 h-auto",
+            currentFocusType === type && "bg-gradient-to-b from-[hsl(203,100%,80%)] via-[hsl(var(--primary))] to-[hsl(203,100%,40%)] text-primary-foreground"
+          )}
         >
           {type}
         </Button>
@@ -33,3 +37,4 @@ const FocusTypeSelector: FC<FocusTypeSelectorProps> = ({ currentFocusType, onSel
 };
 
 export default FocusTypeSelector;
+
