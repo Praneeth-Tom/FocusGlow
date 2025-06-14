@@ -131,7 +131,7 @@ const PillsProgressGraphic: FC<PillsProgressGraphicProps> = ({
           key={`segment-${index}`}
           className={cn(
             "h-24 flex-grow rounded-md transition-colors duration-100 ease-in-out shadow-sm pointer-events-none", // Added pointer-events-none
-            index < activeSegmentsCount ? 'bg-primary' : 'bg-muted'
+            index < activeSegmentsCount ? 'bg-gradient-to-b from-[hsl(var(--primary))] to-[hsl(203,100%,40%)]' : 'bg-muted'
           )}
           aria-hidden="true"
         />
@@ -141,4 +141,3 @@ const PillsProgressGraphic: FC<PillsProgressGraphicProps> = ({
 };
 
 export default PillsProgressGraphic;
-
