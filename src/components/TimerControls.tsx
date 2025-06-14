@@ -32,7 +32,7 @@ const TimerControls: FC<TimerControlsProps> = ({
           onClick={onStart} 
           aria-label="Start timer" 
           size="lg"
-          className={cn(primaryButtonGradient)}
+          className={cn(primaryButtonGradient, "hover:brightness-105 hover:shadow-sm transition-all duration-150 ease-in-out")}
         >
           <Play20Filled className="mr-2 h-5 w-5" /> Start
         </Button>
@@ -41,7 +41,7 @@ const TimerControls: FC<TimerControlsProps> = ({
           onClick={onResume} 
           aria-label="Resume timer" 
           size="lg"
-          className={cn(primaryButtonGradient)}
+          className={cn(primaryButtonGradient, "hover:brightness-105 hover:shadow-sm transition-all duration-150 ease-in-out")}
         >
           <Play20Filled className="mr-2 h-5 w-5" /> Resume
         </Button>
@@ -50,12 +50,12 @@ const TimerControls: FC<TimerControlsProps> = ({
           onClick={onPause} 
           aria-label="Pause timer" 
           size="lg"
-          className={cn(primaryButtonGradient)}
+          className={cn(primaryButtonGradient, "hover:brightness-105 hover:shadow-sm transition-all duration-150 ease-in-out")}
         >
           <Pause20Filled className="mr-2 h-5 w-5" /> Pause
         </Button>
       )}
-      <Button onClick={onReset} variant="outline" aria-label="Reset timer" size="lg">
+      <Button onClick={onReset} variant="outline" aria-label="Reset timer" size="lg" className="hover:shadow-md transition-shadow duration-150 ease-in-out">
         <ArrowCounterclockwise20Regular className="mr-2 h-5 w-5" /> Reset
       </Button>
     </div>
@@ -63,4 +63,3 @@ const TimerControls: FC<TimerControlsProps> = ({
 };
 
 export default TimerControls;
-

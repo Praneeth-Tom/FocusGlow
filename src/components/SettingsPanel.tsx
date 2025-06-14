@@ -50,7 +50,7 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
       >
         <header className="flex items-center justify-between p-4 border-b">
           <h2 id="settings-panel-title" className="text-lg font-semibold">Settings</h2>
-          <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close settings">
+          <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close settings" className="hover:scale-110 transform transition-transform duration-150 ease-in-out">
             <Dismiss20Regular className="h-5 w-5" />
           </Button>
         </header>
@@ -96,7 +96,7 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
         </div>
 
         <footer className="p-4 border-t flex justify-end">
-          <Button onClick={onClose}>Done</Button>
+          <Button onClick={onClose} className="hover:shadow-md transition-shadow duration-150 ease-in-out">Done</Button>
         </footer>
       </div>
     </div>
@@ -104,4 +104,3 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
 };
 
 export default SettingsPanel;
-

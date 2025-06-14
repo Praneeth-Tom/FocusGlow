@@ -16,7 +16,7 @@ interface FocusTypeSelectorProps {
 
 const FocusTypeSelector: FC<FocusTypeSelectorProps> = ({ currentFocusType, onSelectFocusType }) => {
   return (
-    <div className="flex justify-center space-x-2 mb-4"> {/* Changed my-3 to mb-4 */}
+    <div className="flex justify-center space-x-2 mb-4">
       {FOCUS_TYPES.map(type => (
         <Button
           key={type}
@@ -25,8 +25,10 @@ const FocusTypeSelector: FC<FocusTypeSelectorProps> = ({ currentFocusType, onSel
           onClick={() => onSelectFocusType(type)}
           aria-pressed={currentFocusType === type}
           className={cn(
-            "px-4 py-1.5 h-auto",
-            currentFocusType === type && "bg-gradient-to-b from-[hsl(203,100%,80%)] via-[hsl(var(--primary))] to-[hsl(203,100%,40%)] text-primary-foreground"
+            "px-4 py-1.5 h-auto transition-all duration-150 ease-in-out",
+            currentFocusType === type 
+              ? "bg-gradient-to-b from-[hsl(203,100%,80%)] via-[hsl(var(--primary))] to-[hsl(203,100%,40%)] text-primary-foreground hover:brightness-105 hover:shadow-sm" 
+              : "hover:shadow-md"
           )}
         >
           {type}
@@ -37,4 +39,3 @@ const FocusTypeSelector: FC<FocusTypeSelectorProps> = ({ currentFocusType, onSel
 };
 
 export default FocusTypeSelector;
-

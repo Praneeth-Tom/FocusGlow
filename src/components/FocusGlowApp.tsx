@@ -112,7 +112,6 @@ const FocusGlowApp = () => {
   });
   
   const handleDurationChange = useCallback((newDurationSeconds: number) => {
-    // Ensure newDurationSeconds is at least 1 to avoid issues with 0 duration
     const validDuration = Math.max(1, newDurationSeconds);
     setCurrentTimerDuration(validDuration);
     resetTimer(validDuration);
@@ -169,15 +168,15 @@ const FocusGlowApp = () => {
             <div className={cn(timerCardClasses, 'fade-in')}>
               <div className="absolute top-3 right-3 flex items-center space-x-1 z-10">
                 {mounted && (
-                  <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
+                  <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme" className="hover:scale-110 transform transition-transform duration-150 ease-in-out">
                     {theme === 'dark' ? <WeatherSunny20Regular className="h-5 w-5" /> : <WeatherMoon20Regular className="h-5 w-5" />}
                   </Button>
                 )}
-                <Button variant="ghost" size="icon" onClick={() => setIsSettingsPanelOpen(true)} aria-label="Open settings">
+                <Button variant="ghost" size="icon" onClick={() => setIsSettingsPanelOpen(true)} aria-label="Open settings" className="hover:scale-110 transform transition-transform duration-150 ease-in-out">
                   <Settings20Regular className="h-5 w-5" />
                 </Button>
                 {mounted && (
-                  <Button variant="ghost" size="icon" onClick={() => setCurrentView('progress')} aria-label="View progress">
+                  <Button variant="ghost" size="icon" onClick={() => setCurrentView('progress')} aria-label="View progress" className="hover:scale-110 transform transition-transform duration-150 ease-in-out">
                     <ArrowRight20Regular className="h-5 w-5" />
                   </Button>
                 )}
@@ -190,7 +189,6 @@ const FocusGlowApp = () => {
                   onSetDuration={handleDurationChange} 
                   isRunning={isRunning}
                 />
-                {/* PresetSelector removed */}
                 <TimerControls
                   isRunning={isRunning}
                   isPaused={isPaused}
@@ -208,16 +206,16 @@ const FocusGlowApp = () => {
            <div className={cn(timerCardClasses, 'fade-in')}> 
              <div className="absolute top-3 right-3 flex items-center space-x-1 z-10">
                 {mounted && (
-                  <Button variant="ghost" size="icon" onClick={() => setCurrentView('timer')} aria-label="Back to timer">
+                  <Button variant="ghost" size="icon" onClick={() => setCurrentView('timer')} aria-label="Back to timer" className="hover:scale-110 transform transition-transform duration-150 ease-in-out">
                     <ArrowLeft20Regular className="h-5 w-5" />
                   </Button>
                 )}
                 {mounted && (
-                  <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
+                  <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme" className="hover:scale-110 transform transition-transform duration-150 ease-in-out">
                     {theme === 'dark' ? <WeatherSunny20Regular className="h-5 w-5" /> : <WeatherMoon20Regular className="h-5 w-5" />}
                   </Button>
                 )}
-                <Button variant="ghost" size="icon" onClick={() => setIsSettingsPanelOpen(true)} aria-label="Open settings">
+                <Button variant="ghost" size="icon" onClick={() => setIsSettingsPanelOpen(true)} aria-label="Open settings" className="hover:scale-110 transform transition-transform duration-150 ease-in-out">
                   <Settings20Regular className="h-5 w-5" />
                 </Button>
               </div>
