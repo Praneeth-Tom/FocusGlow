@@ -40,7 +40,7 @@ const TimerDisplay: FC<TimerDisplayProps> = ({
   useEffect(() => {
     if (isEditing && inputRef.current) {
       inputRef.current.focus();
-      inputRef.current.select();
+      // inputRef.current.select(); // Removed to prevent full text selection
     }
   }, [isEditing]);
 
