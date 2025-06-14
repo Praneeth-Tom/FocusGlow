@@ -26,7 +26,7 @@ const TimerControls: FC<TimerControlsProps> = ({
   const primaryButtonGradient = "bg-gradient-to-b from-[hsl(203,100%,80%)] via-[hsl(var(--primary))] to-[hsl(203,100%,40%)]";
 
   return (
-    <div className="flex justify-center space-x-3 mt-4">
+    <div className="flex justify-center items-center space-x-3 mt-4">
       {!isRunning ? (
         <Button
           onClick={onStart}
@@ -55,11 +55,25 @@ const TimerControls: FC<TimerControlsProps> = ({
           <Pause20Filled className="mr-2 h-5 w-5" /> Pause
         </Button>
       )}
-      <Button onClick={onReset} variant="outline" aria-label="Reset timer" size="lg" className="">
-        <ArrowCounterclockwise20Regular className="mr-2 h-5 w-5" /> Reset
+      <Button 
+        onClick={onReset} 
+        variant="outline" 
+        aria-label="Reset timer" 
+        size="lg" 
+        className={cn(
+          "transition-all duration-300 ease-in-out transform",
+          isRunning && !isPaused // Only hide completely if running and NOT paused. If paused, it should be visible.
+            ? "opacity-0 scale-75 w-0 p-0 border-transparent -mr-3 pointer-events-none" // mr-3 to collapse space-x-3
+            : "opacity-100 scale-100"
+        )}
+        disabled={isRunning && !isPaused} // Also disable if visually hidden
+      >
+        <ArrowCounterclockwise20Regular className="mr-2 h-5 w-5" /> 
+        <span className={cn(isRunning && !isPaused ? "hidden" : "")}>Reset</span>
       </Button>
     </div>
   );
 };
 
 export default TimerControls;
+
