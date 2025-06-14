@@ -50,7 +50,7 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
       >
         <header className="flex items-center justify-between p-4 border-b">
           <h2 id="settings-panel-title" className="text-lg font-semibold">Settings</h2>
-          <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close settings" className="hover:scale-110 transform transition-transform duration-150 ease-in-out">
+          <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close settings" className="transform transition-transform duration-150 ease-in-out hover:scale-110">
             <Dismiss20Regular className="h-5 w-5" />
           </Button>
         </header>
@@ -61,6 +61,14 @@ const SettingsPanel: FC<SettingsPanelProps> = ({
             <section>
               <h3 className="text-md font-medium mb-3 text-primary">Appearance</h3>
               <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="show-music-card">Show Music Player</Label>
+                  <Switch
+                    id="show-music-card"
+                    checked={settings.showMusicCard}
+                    onCheckedChange={checked => updateSetting('showMusicCard', checked)}
+                  />
+                </div>
                 {/* Font Style and other appearance settings would go here if any */}
               </div>
             </section>

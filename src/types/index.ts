@@ -9,12 +9,14 @@ export interface FocusGlowSettings {
   fontStyle: FontStyle;
   notificationSound: NotificationSound;
   enableSoundAlert: boolean;
+  showMusicCard: boolean;
 }
 
 export const DEFAULT_SETTINGS: FocusGlowSettings = {
   fontStyle: 'Inter',
   notificationSound: 'alarm',
   enableSoundAlert: true,
+  showMusicCard: true,
 };
 
 export interface CustomPreset {

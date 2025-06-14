@@ -168,15 +168,15 @@ const FocusGlowApp = () => {
             <div className={cn(timerCardClasses, 'fade-in')}>
               <div className="absolute top-3 right-3 flex items-center space-x-1 z-10">
                 {mounted && (
-                  <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme" className="hover:scale-110 transform transition-transform duration-150 ease-in-out">
+                  <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme" className="transform transition-transform duration-150 ease-in-out hover:scale-110">
                     {theme === 'dark' ? <WeatherSunny20Regular className="h-5 w-5" /> : <WeatherMoon20Regular className="h-5 w-5" />}
                   </Button>
                 )}
-                <Button variant="ghost" size="icon" onClick={() => setIsSettingsPanelOpen(true)} aria-label="Open settings" className="hover:scale-110 transform transition-transform duration-150 ease-in-out">
+                <Button variant="ghost" size="icon" onClick={() => setIsSettingsPanelOpen(true)} aria-label="Open settings" className="transform transition-transform duration-150 ease-in-out hover:scale-110">
                   <Settings20Regular className="h-5 w-5" />
                 </Button>
                 {mounted && (
-                  <Button variant="ghost" size="icon" onClick={() => setCurrentView('progress')} aria-label="View progress" className="hover:scale-110 transform transition-transform duration-150 ease-in-out">
+                  <Button variant="ghost" size="icon" onClick={() => setCurrentView('progress')} aria-label="View progress" className="transform transition-transform duration-150 ease-in-out hover:scale-110">
                     <ArrowRight20Regular className="h-5 w-5" />
                   </Button>
                 )}
@@ -199,23 +199,23 @@ const FocusGlowApp = () => {
                 />
               </div>
             </div>
-            <CurrentlyPlayingCard />
+            {settings.showMusicCard && <CurrentlyPlayingCard />}
           </>
         )}
         {currentView === 'progress' && (
            <div className={cn(timerCardClasses, 'fade-in')}> 
              <div className="absolute top-3 right-3 flex items-center space-x-1 z-10">
                 {mounted && (
-                  <Button variant="ghost" size="icon" onClick={() => setCurrentView('timer')} aria-label="Back to timer" className="hover:scale-110 transform transition-transform duration-150 ease-in-out">
+                  <Button variant="ghost" size="icon" onClick={() => setCurrentView('timer')} aria-label="Back to timer" className="transform transition-transform duration-150 ease-in-out hover:scale-110">
                     <ArrowLeft20Regular className="h-5 w-5" />
                   </Button>
                 )}
                 {mounted && (
-                  <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme" className="hover:scale-110 transform transition-transform duration-150 ease-in-out">
+                  <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme" className="transform transition-transform duration-150 ease-in-out hover:scale-110">
                     {theme === 'dark' ? <WeatherSunny20Regular className="h-5 w-5" /> : <WeatherMoon20Regular className="h-5 w-5" />}
                   </Button>
                 )}
-                <Button variant="ghost" size="icon" onClick={() => setIsSettingsPanelOpen(true)} aria-label="Open settings" className="hover:scale-110 transform transition-transform duration-150 ease-in-out">
+                <Button variant="ghost" size="icon" onClick={() => setIsSettingsPanelOpen(true)} aria-label="Open settings" className="transform transition-transform duration-150 ease-in-out hover:scale-110">
                   <Settings20Regular className="h-5 w-5" />
                 </Button>
               </div>
